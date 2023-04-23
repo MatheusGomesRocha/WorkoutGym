@@ -1,24 +1,13 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-function App(): JSX.Element {
+import MainStack from './src/navigators/MainStack';
+import AppTab from './src/navigators/AppTab';
 
-  return (
-    <SafeAreaView>
-      <ScrollView>
-        <Text>Olá mundo</Text>
-      </ScrollView>
-    </SafeAreaView>
-  );
+export default () => {
+  return(
+    <NavigationContainer>
+      <AppTab />
+    </NavigationContainer>
+  )
 }
-
-
-export default App;
