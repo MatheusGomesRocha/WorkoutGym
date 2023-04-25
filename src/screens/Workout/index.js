@@ -3,12 +3,17 @@ import React from 'react';
 import {
     Container,
     Text,
+    Button,
 } from './styles';
 
-export default () => {
+import { TouchableHighlight } from 'react-native'; 
+
+export default ({ navigation }) => {
     return(
         <Container>
-            <Text>Olá mundo</Text>
+            <Button onPress={() => navigation.navigate('newworkout')}>
+                <Text>Olá mundo 2</Text>
+            </Button>
         </Container>
     )
 }
