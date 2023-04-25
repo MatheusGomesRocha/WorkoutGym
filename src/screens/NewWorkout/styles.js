@@ -1,4 +1,10 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.SafeAreaView``;
-export const Text = styled.Text``;
+export const Container = styled.SafeAreaView`
+    flex: 1;
+    background-color: #fff;
+`;
+export const ScrollTeste = styled.ScrollView``;
+export const Text = styled.Text`
+    color: #000;
+`;
