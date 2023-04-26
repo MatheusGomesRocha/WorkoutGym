@@ -15,7 +15,7 @@ export const paddingHorizontal = '30px';
 export const primary = '#ff0000';
 export const primaryTransparent = 'rgba(255, 0, 0, .1)';
 
-export const bold = 'Montserrat-Bold';
-export const regular = 'Montserrat-Regular';
-export const light = 'Montserrat-Light';
-export const semibold = 'Montserrat-SemiBold';
+export const bold = 'Nunito-Bold';
+export const regular = 'Nunito-Regular';
+export const light = 'Nunito-Light';
+export const semibold = 'Nunito-SemiBold';

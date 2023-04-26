@@ -23,10 +23,8 @@ export default () => {
     const opacityThumb = useRef(new Animated.Value(0)).current;
 
     const [slideValue, setSlideValue] = useState(5);
-    
     let window = useWindowDimensions();
-    window.width = window.width / 2;
-
+    
     function headerFixed (event) {
         if(event.contentOffset.y > 0) {
             Animated.timing(opacity, {
@@ -95,7 +93,7 @@ export default () => {
         }),
         left: translation.interpolate({
             inputRange: [0, 100],
-            outputRange: [0, -window.width],
+            outputRange: [0, -window.width / 2],
         }),
         marginLeft: translation.interpolate({
             inputRange: [0, 100],
@@ -119,7 +117,7 @@ export default () => {
                     <View style={{alignItems: 'flex-start'}}>
                         <Animated.Text style={[styles.muscle, muscleStyle]}>Muscle</Animated.Text>
 
-                        <Animated.View style={[styles.muscleSelect, muscleMoviment]}>
+                        <Animated.View style={[styles.muscleSelect]}>
                             <Animated.Text style={[styles.muscleName]}>Quadriceps</Animated.Text>
                             <FontAwesome style={{marginLeft: 10}} name="angle-down" color="#000" size={15} />  
                         </Animated.View>
@@ -127,101 +125,22 @@ export default () => {
                 </Animated.View>
             </Animated.View>
 
-            <SlideView>
-                <Slider
-                    value={slideValue}
-                    onValueChange={e => setSlideValue(e[0])}
-                    minimumValue={0}
-                    maximumValue={10}
-                    step={1}
-                    minimumTrackTintColor='red'
-                    maximumTrackTintColor='#ccc'
-                    trackStyle={{backgroundColor: '#ccc', height: 1,}}
-                    renderThumbComponent={MyMarker}
-                    renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
-                    onSlidingStart={() => showThumb(1)}
-                    onSlidingComplete={() => showThumb(0)}
-                />
-            </SlideView>
+            <Slider
+                value={slideValue}
+                onValueChange={e => setSlideValue(e[0])}
+                minimumValue={0}
+                maximumValue={10}
+                step={1}
+                minimumTrackTintColor='red'
+                maximumTrackTintColor='#ccc'
+                trackStyle={{backgroundColor: '#ccc', height: 1,}}
+                renderThumbComponent={MyMarker}
+                renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
+                onSlidingStart={() => showThumb(1)}
+                onSlidingComplete={() => showThumb(0)}
+            />
 
             <ScrollTeste onScroll={(event) => headerFixed(event.nativeEvent)}>
-                <Text>{window.width}</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
-                <Text>Olá mundo</Text>
             </ScrollTeste>
         </Container>
     )

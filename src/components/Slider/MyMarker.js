@@ -6,8 +6,8 @@ import { View, StyleSheet } from 'react-native';
 export const MyMarker = () => {
     return(
         <View style={styles.marker}>
-            <FontAwesome name="angle-left" size={18} color="#000" style={{marginRight: 5}} />
-            <FontAwesome name="angle-right" size={18} color="#000" />
+            <FontAwesome name="angle-left" size={15} color="#000" style={{marginRight: 5}} />
+            <FontAwesome name="angle-right" size={15} color="#000" />
         </View>
     )
 }
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
-        elevation: 20,
+        elevation: 50,
         width: 25,
         height: 25,
         borderRadius: 3,
