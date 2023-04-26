@@ -4,25 +4,34 @@ import {
     Container,
     ScrollTeste,
     Text,
+    SlideView,
 } from './styles';
+
+import { Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Slider } from '@miblanchard/react-native-slider';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { bold, regular, semibold } from '../../globals';
 
-import { Animated, StyleSheet, useWindowDimensions, Easing } from 'react-native';
+import { MyThumb } from '../../components/Slider/MyThumb';
+import { MyMarker } from '../../components/Slider/MyMarker';
+
 
 export default () => {
     const opacity = useRef(new Animated.Value(1)).current;
     const translation = useRef(new Animated.Value(0)).current;
+    const opacityThumb = useRef(new Animated.Value(0)).current;
+
+    const [slideValue, setSlideValue] = useState(5);
     
     let window = useWindowDimensions();
-    window.width = window.width / 2 - 95;
+    window.width = window.width / 2;
 
-    function headerFixed (event, EasingFunction) {
+    function headerFixed (event) {
         if(event.contentOffset.y > 0) {
             Animated.timing(opacity, {
                 toValue: 0,
                 duration: 100,
-                easing: Easing.linear,
                 useNativeDriver: false,
             }).start();
     
@@ -41,7 +50,6 @@ export default () => {
             Animated.timing(opacity, {
                 toValue: 1,
                 duration: 100,
-                easing: Easing.linear,
                 useNativeDriver: false,
             }).start();
     
@@ -59,6 +67,16 @@ export default () => {
         }
     };
 
+    function showThumb (value) {
+        Animated.spring(opacityThumb, {
+            toValue: value,
+            duration: 100,
+            friction: 4,
+            tension: 15,
+            useNativeDriver: false,
+        }).start();
+    }
+
     const headerStyle = {
         height: opacity.interpolate({
             inputRange: [0, 1],
@@ -73,11 +91,15 @@ export default () => {
     const muscleWidth = {
         width: translation.interpolate({
             inputRange: [0, 100],
-            outputRange: ['20%', '100%'],
+            outputRange: ['40%', '100%'],
         }),
-        marginRight: opacity.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 20],
+        left: translation.interpolate({
+            inputRange: [0, 100],
+            outputRange: [0, -window.width],
+        }),
+        marginLeft: translation.interpolate({
+            inputRange: [0, 100],
+            outputRange: [10, 0],
         }),
     };
 
@@ -85,34 +107,45 @@ export default () => {
         opacity: opacity,
     };
 
-    const muscleMoviment = {
-        left: translation.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, window.width],
-        })
-    };
-
     return(
         <Container>
-                <Animated.View style={[styles.header, headerStyle]}>
-                    <Animated.View style={[styles.left, textStyle]}>
-                        <Animated.Text style={styles.bigText}>New</Animated.Text>
-                        <Animated.Text style={styles.smallText}>workout</Animated.Text>
-                    </Animated.View>
-
-                    <Animated.View style={[styles.muscleArea, muscleWidth]}>
-                        <Animated.Text style={[styles.muscle, muscleStyle]}>Muscle</Animated.Text>
-
-                        <Animated.View>
-                            <Animated.Text style={[styles.muscleName, muscleMoviment]}>Legs</Animated.Text>
-                        </Animated.View>
-                    </Animated.View>
+            <Animated.View style={[styles.header, headerStyle]}>
+                <Animated.View style={[styles.left, textStyle]}>
+                    <Animated.Text style={styles.bigText}>New</Animated.Text>
+                    <Animated.Text style={styles.smallText}>workout</Animated.Text>
                 </Animated.View>
 
-                <ScrollTeste onScroll={(event) => headerFixed(event.nativeEvent)}>
+                <Animated.View style={[styles.muscleArea, muscleWidth]}>
+                    <View style={{alignItems: 'flex-start'}}>
+                        <Animated.Text style={[styles.muscle, muscleStyle]}>Muscle</Animated.Text>
 
-                <Text>Olá mundo22222</Text>
-                <Text>Olá mundo</Text>
+                        <Animated.View style={[styles.muscleSelect, muscleMoviment]}>
+                            <Animated.Text style={[styles.muscleName]}>Quadriceps</Animated.Text>
+                            <FontAwesome style={{marginLeft: 10}} name="angle-down" color="#000" size={15} />  
+                        </Animated.View>
+                    </View>
+                </Animated.View>
+            </Animated.View>
+
+            <SlideView>
+                <Slider
+                    value={slideValue}
+                    onValueChange={e => setSlideValue(e[0])}
+                    minimumValue={0}
+                    maximumValue={10}
+                    step={1}
+                    minimumTrackTintColor='red'
+                    maximumTrackTintColor='#ccc'
+                    trackStyle={{backgroundColor: '#ccc', height: 1,}}
+                    renderThumbComponent={MyMarker}
+                    renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
+                    onSlidingStart={() => showThumb(1)}
+                    onSlidingComplete={() => showThumb(0)}
+                />
+            </SlideView>
+
+            <ScrollTeste onScroll={(event) => headerFixed(event.nativeEvent)}>
+                <Text>{window.width}</Text>
                 <Text>Olá mundo</Text>
                 <Text>Olá mundo</Text>
                 <Text>Olá mundo</Text>
@@ -204,7 +237,7 @@ const styles = StyleSheet.create({
     left: {
         borderRightColor: '#eee',
         borderRightWidth: 1,
-        paddingRight: 80,
+        paddingRight: 50,
     },
 
     bigText: {
@@ -221,15 +254,20 @@ const styles = StyleSheet.create({
     },
 
     muscleArea: {
-        marginLeft: 'auto',
+        alignItems: 'center',
     },
 
     muscle: {
         color: '#aaa',
         fontFamily: semibold,
         fontSize: 12,
-        width: 100,
-        textAlign: 'center',
+        textAlign: 'left',
+    },
+
+    muscleSelect: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     muscleName: {
@@ -237,6 +275,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: semibold,
         fontSize: 18,
-        width: 100,
+        marginRight: 'auto',
     }
 });
