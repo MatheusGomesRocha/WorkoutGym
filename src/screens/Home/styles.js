@@ -36,7 +36,9 @@ export const ActivityTitle = styled.Text`
     font-family: ${semibold};
     font-size: 19px;
 `;
-export const CalendarSelect = styled.View`
+export const CalendarMonth = styled.View`
+`;
+export const CalendarSelect = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
 `;
@@ -45,6 +47,12 @@ export const CalendarSelectText = styled.Text`
     font-size: 12px;
     color: #aaa;
     margin-right: 5px;
+`;
+export const CalendarDropdown = styled.View`
+`;
+export const CalendarDropdownItem = styled.TouchableOpacity`
+`;
+export const CalendarDropdownText = styled.Text`
 `;
 export const Calendar = styled.ScrollView`
     margin-top: 10px;
@@ -59,8 +67,8 @@ export const CalendarItem = styled.TouchableOpacity`
     justify-content: center;
     height: 60px;
     width: 45px;
-    border-radius: 10px;
     margin-left: 15px;
+    border-radius: 10px;
     border-width: 1px;
     border-color: ${props=>props.bc};
 `;

@@ -14,8 +14,12 @@ import {
     Acitivity,
     CalendarHeader,
     ActivityTitle,
+    CalendarMonth,
     CalendarSelect,
     CalendarSelectText,
+    CalendarDropdown,
+    CalendarDropdownItem,
+    CalendarDropdownText,
     Calendar,
     CalendarWrapped,
     CalendarItem,
@@ -34,9 +38,51 @@ import {
     ReportValue,
     ReportDetail,
  } from './styles';
+import { FlatList } from 'react-native';
+
+const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
 export default () => {
-    const [currentDate, setCurrentDate] = useState(20);
+    const [currentDate, setCurrentDate] = useState(new Date().getDate());
+
+    let today = new Date();
+
+    let days = [];
+    let daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
+
+    for(let i = 1; i <= daysInMonth; i++) {
+        let daysInWeek = new Date(today.getFullYear(), today.getMonth(), i).getDay();
+
+        if(daysInWeek === 0) {
+            days.push(
+                {day: i, dayOfTheWeek: 'D'}
+            );
+        } else if (daysInWeek === 1) {
+            days.push(
+                {day: i, dayOfTheWeek: 'S'}
+            );
+        } else if (daysInWeek === 2) {
+            days.push(
+                {day: i, dayOfTheWeek: 'T'}
+            );
+        } else if (daysInWeek === 3) {
+            days.push(
+                {day: i, dayOfTheWeek: 'Q'}
+            );
+        } else if (daysInWeek === 4) {
+            days.push(
+                {day: i, dayOfTheWeek: 'Q'}
+            );
+        } else if (daysInWeek === 5) {
+            days.push(
+                {day: i, dayOfTheWeek: 'S'}
+            );
+        } else if (daysInWeek === 6) {
+            days.push(
+                {day: i, dayOfTheWeek: 'S'}
+            );
+        }
+    }   
 
     return(
         <Container>
@@ -47,37 +93,37 @@ export default () => {
            </Welcome>
 
            <Acitivity>
-            <CalendarHeader>
+            <CalendarHeader style={{zIndex: 5}}>
                 <ActivityTitle>Atividade</ActivityTitle>
 
-                <CalendarSelect>
-                    <CalendarSelectText>Abril</CalendarSelectText>
-                    <FontAwesome name="angle-down" size={12} color="#aaa" />
-                </CalendarSelect>
+                <CalendarMonth>
+                    <CalendarSelect onPress={() => console.log('olá mundo')}>
+                        <CalendarSelectText>Abril</CalendarSelectText>
+                        <FontAwesome name="angle-down" size={12} color="#aaa" />
+                    </CalendarSelect>
+                </CalendarMonth>
             </CalendarHeader>
 
-            <Calendar horizontal>
-                <CalendarWrapped>
-                    <CalendarItem bc={currentDate === 19 ? primary : '#cecece'} onPress={() => setCurrentDate(19)} style={{marginLeft: 25}}>
-                        <CalendarDayName>S</CalendarDayName>
-                        <CalendarDayValue>19</CalendarDayValue>
-                    </CalendarItem>
+            <FlatList
+                style={{marginTop: 10}}
+                contentContainerStyle={{paddingLeft: 10, paddingRight: 25, paddingBottom: 10}}
+                horizontal
+                data={days}
+                renderItem={({item}) => 
+                    <CalendarWrapped>
+                        <CalendarItem bc={currentDate === item.day ? primary : '#cecece'} onPress={() => setCurrentDate(item.day)}>
+                            <CalendarDayName>{item.dayOfTheWeek}</CalendarDayName>
+                            <CalendarDayValue>{item.day}</CalendarDayValue>
+                        </CalendarItem>
 
-                    <CalendarDot bg={currentDate === 19 ? primary : 'transparent'}></CalendarDot>
-                </CalendarWrapped>
-
-                <CalendarWrapped>
-                    <CalendarItem bc={currentDate === 20 ? primary : '#cecece'} onPress={() => setCurrentDate(20)}>
-                        <CalendarDayName>M</CalendarDayName>
-                        <CalendarDayValue>20</CalendarDayValue>
-                    </CalendarItem>
-
-                    <CalendarDot bg={currentDate === 20 ? primary : 'transparent'}></CalendarDot>
-                </CalendarWrapped>
-            </Calendar>
+                        <CalendarDot bg={currentDate === item.day ? primary : 'transparent'}></CalendarDot>
+                    </CalendarWrapped>                
+                }
+                keyExtractor={(item) => item.day}
+            />
            </Acitivity>
 
-           <Report>
+           <Report style={{zIndex: 1}}>
                 <ReportTitle>Relatório do Dia</ReportTitle>
 
                 <ReportWrapped>
