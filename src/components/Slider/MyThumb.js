@@ -1,7 +1,21 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
-import { Animated, View, Text, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
+import { Animated, StyleSheet } from 'react-native';
+
 import { bold } from '../../globals';
+
+const Line = styled.View`
+    background-color: red;
+    width: 12px;
+    height: 3px;
+    border-radius: 2px;
+`;
+const Value = styled.Text`
+    color: #000;
+    font-family: ${bold};
+    font-size: 13px;
+`;
 
 export const MyThumb = ({ slideValue, opacityThumb }) => {
     return(
@@ -9,16 +23,16 @@ export const MyThumb = ({ slideValue, opacityThumb }) => {
                 opacity: opacityThumb,
                 height: opacityThumb.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 40],
+                    outputRange: [0, 25],
                 }),
                 width: opacityThumb.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 40],
+                    outputRange: [0, 25],
                 }),
             }]}>
             <Animated.View style={{opacity: opacityThumb}}>
-                <View style={styles.line}></View>
-                <Text style={styles.value}>{slideValue}</Text>
+                <Line />
+                <Value>{slideValue}</Value>
             </Animated.View>
         </Animated.View>
     )
@@ -27,24 +41,11 @@ export const MyThumb = ({ slideValue, opacityThumb }) => {
 const styles = StyleSheet.create({
     thumb: {
         backgroundColor: '#fff',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            elevation: 20,
-            borderRadius: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        elevation: 20,
+        borderRadius: 3,
     },
-
-    line: {
-        backgroundColor: 'red',
-        width: 15,
-        height: 3,
-        borderRadius: 2,
-    },
-
-    value: {
-        fontFamily: bold,
-        fontSize: 18,
-        color: '#000',
-    }
 });

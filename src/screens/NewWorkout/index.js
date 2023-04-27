@@ -2,13 +2,30 @@ import React, { useState, useRef } from 'react';
 
 import {
     Container,
-    ScrollTeste,
-    Text,
-    SlideView,
+
+    DropdownButton,
+
+    ScrollContent,
+
+    WorkoutItem,
+    WorkoutHeader,
+    WorkoutBig,
+    WorkoutMuscle,
+    WorkoutDetail,
+    WorkoutMiniature,
+    WorkoutContent,
+    WorkoutLine,
+    WorkoutName,
+    WorkoutSeries,
+    WorkoutLike,
+
+    Teste
 } from './styles';
 
-import { Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Animated, StyleSheet, useWindowDimensions, View, TouchableHighlight, Text } from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { bold, regular, semibold } from '../../globals';
@@ -16,8 +33,22 @@ import { bold, regular, semibold } from '../../globals';
 import { MyThumb } from '../../components/Slider/MyThumb';
 import { MyMarker } from '../../components/Slider/MyMarker';
 
+const data = [
+    { label: 'Peito', value: '1' },
+    { label: 'Costas', value: '2' },
+    { label: 'Biceps', value: '3' },
+    { label: 'Triceps', value: '4' },
+    { label: 'Posterior', value: '5' },
+    { label: 'Panturrilha', value: '6' },
+    { label: 'Quadriceps', value: '7' },
+    { label: 'Ombro', value: '8' },
+];
 
 export default () => {
+    const [open, setOpen] = useState(false);
+    const [dropdownValue, setDropdownValue] = useState('Peito');
+    const [isFocus, setIsFocus] = useState(false);
+
     const opacity = useRef(new Animated.Value(1)).current;
     const translation = useRef(new Animated.Value(0)).current;
     const opacityThumb = useRef(new Animated.Value(0)).current;
@@ -78,7 +109,7 @@ export default () => {
     const headerStyle = {
         height: opacity.interpolate({
             inputRange: [0, 1],
-            outputRange: [60, 200],
+            outputRange: [100, 200],
         }),
     };
 
@@ -89,7 +120,7 @@ export default () => {
     const muscleWidth = {
         width: translation.interpolate({
             inputRange: [0, 100],
-            outputRange: ['40%', '100%'],
+            outputRange: ['40%', '110%'],
         }),
         left: translation.interpolate({
             inputRange: [0, 100],
@@ -114,13 +145,13 @@ export default () => {
                 </Animated.View>
 
                 <Animated.View style={[styles.muscleArea, muscleWidth]}>
-                    <View style={{alignItems: 'flex-start'}}>
+                    <View style={{alignItems: 'flex-start', marginLeft: 10}}>
                         <Animated.Text style={[styles.muscle, muscleStyle]}>Muscle</Animated.Text>
-
-                        <Animated.View style={[styles.muscleSelect]}>
+                        
+                        <DropdownButton onPress={() => console.log('olá mundo')}>
                             <Animated.Text style={[styles.muscleName]}>Quadriceps</Animated.Text>
                             <FontAwesome style={{marginLeft: 10}} name="angle-down" color="#000" size={15} />  
-                        </Animated.View>
+                        </DropdownButton>
                     </View>
                 </Animated.View>
             </Animated.View>
@@ -140,8 +171,111 @@ export default () => {
                 onSlidingComplete={() => showThumb(0)}
             />
 
-            <ScrollTeste onScroll={(event) => headerFixed(event.nativeEvent)}>
-            </ScrollTeste>
+            <ScrollContent onScroll={(event) => headerFixed(event.nativeEvent)}>
+                <WorkoutItem>
+                    <WorkoutHeader>
+                        <WorkoutBig>Treino 1</WorkoutBig>
+
+                        <WorkoutMuscle>Glúteo e Pernas</WorkoutMuscle>
+                    </WorkoutHeader>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+
+                    <WorkoutDetail>
+                         <WorkoutMiniature></WorkoutMiniature>
+
+                         <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>Rosca Direta</WorkoutName>
+
+                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
+                         </WorkoutContent>
+
+                         <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                         </WorkoutLike>
+                    </WorkoutDetail>
+                </WorkoutItem>
+            </ScrollContent>
         </Container>
     )
 }
@@ -151,6 +285,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 40,
+        zIndex: 999,
     },
 
     left: {
@@ -174,6 +309,7 @@ const styles = StyleSheet.create({
 
     muscleArea: {
         alignItems: 'center',
+        marginLeft: 20,
     },
 
     muscle: {
