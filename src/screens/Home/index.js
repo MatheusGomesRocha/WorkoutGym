@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+
+import { FlatList, useWindowDimensions, StyleSheet, Animated } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { primary, primaryTransparent } from '../../globals';
+import { DayScroll } from '../../components/DayScroll';
 
 import { 
     Container,
@@ -17,15 +19,9 @@ import {
     CalendarMonth,
     CalendarSelect,
     CalendarSelectText,
-    CalendarDropdown,
-    CalendarDropdownItem,
-    CalendarDropdownText,
-    Calendar,
-    CalendarWrapped,
-    CalendarItem,
-    CalendarDayName,
-    CalendarDayValue,
-    CalendarDot,
+
+    CurrentMonth,
+    CurrentMonthText,
 
     Report,
     ReportTitle,
@@ -38,81 +34,46 @@ import {
     ReportValue,
     ReportDetail,
  } from './styles';
-import { FlatList, useWindowDimensions } from 'react-native';
 
-const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+const months = [
+    {label: 'Janeiro', value: 1},
+    {label: 'Fevereiro', value: 2},
+    {label: 'Março', value: 3},
+    {label: 'Abril', value: 4},
+    {label: 'Maio', value: 5},
+    {label: 'Junho', value: 6},
+    {label: 'Julho', value: 7},
+    {label: 'Agosto', value: 8},
+    {label: 'Setembro', value: 9},
+    {label: 'Outubro', value: 10},
+    {label: 'Novembro', value: 11},
+    {label: 'Dezembro', value: 12},
+];
 
 export default () => {
-    const [currentDate, setCurrentDate] = useState(new Date().getDate());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
 
     const window = useWindowDimensions();
 
-    const DayRef = useRef();
+    const showScrollMonth = useRef(new Animated.Value(0)).current;
 
-    let today = new Date();
-
-    let days = [];
-    let daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
-
-    for(let i = 1; i <= daysInMonth; i++) {
-        let daysInWeek = new Date(today.getFullYear(), today.getMonth(), i).getDay();
-
-        if(daysInWeek === 0) {
-            days.push(
-                {day: i, dayOfTheWeek: 'D'}
-            );
-        } else if (daysInWeek === 1) {
-            days.push(
-                {day: i, dayOfTheWeek: 'S'}
-            );
-        } else if (daysInWeek === 2) {
-            days.push(
-                {day: i, dayOfTheWeek: 'T'}
-            );
-        } else if (daysInWeek === 3) {
-            days.push(
-                {day: i, dayOfTheWeek: 'Q'}
-            );
-        } else if (daysInWeek === 4) {
-            days.push(
-                {day: i, dayOfTheWeek: 'Q'}
-            );
-        } else if (daysInWeek === 5) {
-            days.push(
-                {day: i, dayOfTheWeek: 'S'}
-            );
-        } else if (daysInWeek === 6) {
-            days.push(
-                {day: i, dayOfTheWeek: 'S'}
-            );
-        }
-    }   
-
-    let dayW = Math.round(window.width / 7);
-    let offsetW = Math.round((window.width - dayW) / 2);
-
-    function scrollEndAction (e) {
-        let posX = e.nativeEvent.contentOffset.x;
-        let targetDay = Math.round(posX / dayW) + 1;
-        setCurrentDate(targetDay);
+    let monthW = Math.round(window.width / 3.5);
+    let offsetMonthW = Math.round((window.width - monthW) / 2);
+    
+    function showMonthSelect() {
+        Animated.timing(showScrollMonth, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: false,
+        }).start();
     }
 
-    function scrollToDay (d) {
-        let posX = d * 55;
-        setCurrentDate(d);
-
-        DayRef.current.scrollToOffset({
-            offset: posX,
-            animated: true,
-        });
+    const growMonthSelect = {
+        height: showScrollMonth.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 40]
+        })
     }
-
-    useEffect(() => {
-        setTimeout(() => {
-            scrollToDay(new Date().getDate());
-        }, 1000)
-    }, [])
 
     return(
         <Container>
@@ -126,33 +87,29 @@ export default () => {
             <CalendarHeader>
                 <ActivityTitle>Atividade</ActivityTitle>
 
-                <CalendarMonth>
-                    <CalendarSelect>
-                        <CalendarSelectText>Abril</CalendarSelectText>
-                        <FontAwesome name="angle-down" size={12} color="#aaa" />
-                    </CalendarSelect>
-                </CalendarMonth>
+                <Animated.View style={[styles.months]}>
+                    <FlatList
+                        data={months}
+                        horizontal
+                        renderItem={({item}) => 
+                            <CalendarMonth style={{width: monthW}}>
+                                <CalendarSelect bc={currentMonth === item.value ? 'red' : '#cecece'} bg={currentMonth === item.value ? 'red' : 'transparent'} onPress={() => setCurrentMonth(item.value)}>
+                                    <CalendarSelectText color={currentMonth === item.value ? '#fff' : '#aaa'}>{item.label}</CalendarSelectText>
+                                </CalendarSelect>
+                            </CalendarMonth>
+                        }
+                        keyExtractor={(item) => item.value}
+                        style={{marginLeft: 10}}
+                    />
+                </Animated.View>
+
+                <CurrentMonth>
+                    <CurrentMonthText>Abril</CurrentMonthText>
+                    <FontAwesome name="angle-down" size={14} color="#aaa" />
+                </CurrentMonth>
             </CalendarHeader>
 
-            <FlatList
-                onMomentumScrollEnd={scrollEndAction}
-                ref={DayRef}
-                style={{marginTop: 10, width: '100%'}}
-                contentContainerStyle={{paddingLeft: offsetW, paddingRight: offsetW, paddingBottom: 10}}
-                horizontal
-                data={days}
-                renderItem={({item}) => 
-                    <CalendarWrapped style={{width: dayW}} onPress={() => scrollToDay(item.day)}>
-                        <CalendarItem bc={currentDate === item.day ? primary : '#cecece'}>
-                            <CalendarDayName>{item.dayOfTheWeek}</CalendarDayName>
-                            <CalendarDayValue>{item.day}</CalendarDayValue>
-                        </CalendarItem>
-
-                        <CalendarDot bg={currentDate === item.day ? primary : 'transparent'}></CalendarDot>
-                    </CalendarWrapped>                
-                }
-                keyExtractor={(item) => item.day}
-            />
+            <DayScroll />
            </Acitivity>
 
            <Report>
@@ -211,3 +168,10 @@ export default () => {
         </Container>
     )
 }
+
+const styles = StyleSheet.create({
+    months: {
+        height: 0,
+        display: 'none'
+    }
+});

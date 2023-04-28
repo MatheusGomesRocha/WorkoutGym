@@ -39,53 +39,34 @@ export const ActivityTitle = styled.Text`
 export const CalendarMonth = styled.View`
 `;
 export const CalendarSelect = styled.TouchableOpacity`
+    background-color: ${props=>props.bg};
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-color: ${props=>props.bc};
+    border-width: 1px;
+    padding: 0 15px;
+    height: 32px;
+    margin-right: 10px;
+    border-radius: 5px;
+`;
+export const CalendarSelectText = styled.Text`
+    color: ${props=>props.color};
+    font-family: ${semibold};
+    font-size: 12px;
+    margin-right: 5px;
+`;
+
+
+export const CurrentMonth = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
 `;
-export const CalendarSelectText = styled.Text`
-    font-family: ${semibold};
-    font-size: 12px;
+export const CurrentMonthText = styled.Text`
     color: #aaa;
-    margin-right: 5px;
-`;
-export const CalendarDropdown = styled.View`
-`;
-export const CalendarDropdownItem = styled.TouchableOpacity`
-`;
-export const CalendarDropdownText = styled.Text`
-`;
-export const Calendar = styled.ScrollView`
-    margin-top: 10px;
-    padding-bottom: 10px;
-`;
-export const CalendarWrapped = styled.TouchableOpacity`
-    align-items: center;
-`;
-export const CalendarItem = styled.View`
-    background-color: ${props=>props.bg};
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 60px;
-    margin-left: 15px;
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: ${props=>props.bc};
-`;
-export const CalendarDayName = styled.Text`
-    color: ${primary};
     font-family: ${bold};
-`;
-export const CalendarDayValue = styled.Text`
-    color: #000;
-    font-family: ${regular};
-`;
-export const CalendarDot = styled.View`
-    background-color: ${props=>props.bg};
-    width: 7px;
-    height: 7px;
-    border-radius: 4px;
-    margin: 10px 0 0 15px;
+    font-size: 13px;
+    margin-right: 10px;
 `;
 
 /** --------------------------------------------- **/
