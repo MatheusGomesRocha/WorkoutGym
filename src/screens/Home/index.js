@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -38,12 +38,17 @@ import {
     ReportValue,
     ReportDetail,
  } from './styles';
-import { FlatList } from 'react-native';
+import { FlatList, useWindowDimensions } from 'react-native';
 
 const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
 export default () => {
     const [currentDate, setCurrentDate] = useState(new Date().getDate());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+
+    const window = useWindowDimensions();
+
+    const DayRef = useRef();
 
     let today = new Date();
 
@@ -84,6 +89,31 @@ export default () => {
         }
     }   
 
+    let dayW = Math.round(window.width / 7);
+    let offsetW = Math.round((window.width - dayW) / 2);
+
+    function scrollEndAction (e) {
+        let posX = e.nativeEvent.contentOffset.x;
+        let targetDay = Math.round(posX / dayW) + 1;
+        setCurrentDate(targetDay);
+    }
+
+    function scrollToDay (d) {
+        let posX = d * 55;
+        setCurrentDate(d);
+
+        DayRef.current.scrollToOffset({
+            offset: posX,
+            animated: true,
+        });
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            scrollToDay(new Date().getDate());
+        }, 1000)
+    }, [])
+
     return(
         <Container>
            <Welcome>
@@ -93,11 +123,11 @@ export default () => {
            </Welcome>
 
            <Acitivity>
-            <CalendarHeader style={{zIndex: 5}}>
+            <CalendarHeader>
                 <ActivityTitle>Atividade</ActivityTitle>
 
                 <CalendarMonth>
-                    <CalendarSelect onPress={() => console.log('olá mundo')}>
+                    <CalendarSelect>
                         <CalendarSelectText>Abril</CalendarSelectText>
                         <FontAwesome name="angle-down" size={12} color="#aaa" />
                     </CalendarSelect>
@@ -105,13 +135,15 @@ export default () => {
             </CalendarHeader>
 
             <FlatList
-                style={{marginTop: 10}}
-                contentContainerStyle={{paddingLeft: 10, paddingRight: 25, paddingBottom: 10}}
+                onMomentumScrollEnd={scrollEndAction}
+                ref={DayRef}
+                style={{marginTop: 10, width: '100%'}}
+                contentContainerStyle={{paddingLeft: offsetW, paddingRight: offsetW, paddingBottom: 10}}
                 horizontal
                 data={days}
                 renderItem={({item}) => 
-                    <CalendarWrapped>
-                        <CalendarItem bc={currentDate === item.day ? primary : '#cecece'} onPress={() => setCurrentDate(item.day)}>
+                    <CalendarWrapped style={{width: dayW}} onPress={() => scrollToDay(item.day)}>
+                        <CalendarItem bc={currentDate === item.day ? primary : '#cecece'}>
                             <CalendarDayName>{item.dayOfTheWeek}</CalendarDayName>
                             <CalendarDayValue>{item.day}</CalendarDayValue>
                         </CalendarItem>
@@ -123,7 +155,7 @@ export default () => {
             />
            </Acitivity>
 
-           <Report style={{zIndex: 1}}>
+           <Report>
                 <ReportTitle>Relatório do Dia</ReportTitle>
 
                 <ReportWrapped>

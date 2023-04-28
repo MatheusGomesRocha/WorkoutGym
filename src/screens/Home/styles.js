@@ -58,15 +58,15 @@ export const Calendar = styled.ScrollView`
     margin-top: 10px;
     padding-bottom: 10px;
 `;
-export const CalendarWrapped = styled.View`
+export const CalendarWrapped = styled.TouchableOpacity`
     align-items: center;
 `;
-export const CalendarItem = styled.TouchableOpacity`
+export const CalendarItem = styled.View`
     background-color: ${props=>props.bg};
     align-items: center;
     justify-content: center;
-    height: 60px;
     width: 45px;
+    height: 60px;
     margin-left: 15px;
     border-radius: 10px;
     border-width: 1px;
