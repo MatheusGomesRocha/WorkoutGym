@@ -36,27 +36,6 @@ export const ActivityTitle = styled.Text`
     font-family: ${semibold};
     font-size: 19px;
 `;
-export const CalendarMonth = styled.View`
-`;
-export const CalendarSelect = styled.TouchableOpacity`
-    background-color: ${props=>props.bg};
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    border-color: ${props=>props.bc};
-    border-width: 1px;
-    padding: 0 15px;
-    height: 32px;
-    margin-right: 10px;
-    border-radius: 5px;
-`;
-export const CalendarSelectText = styled.Text`
-    color: ${props=>props.color};
-    font-family: ${semibold};
-    font-size: 12px;
-    margin-right: 5px;
-`;
-
 
 export const CurrentMonth = styled.TouchableOpacity`
     flex-direction: row;
@@ -68,6 +47,8 @@ export const CurrentMonthText = styled.Text`
     font-size: 13px;
     margin-right: 10px;
 `;
+
+
 
 /** --------------------------------------------- **/
 
