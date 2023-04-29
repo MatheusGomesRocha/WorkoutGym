@@ -45,7 +45,6 @@ const CalendarSelectText = styled.Text`
 
 export const MonthScroll = ({ openMonthMenu, setOpenMonthMenu, setMonthName }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-    const [display, setDisplay] = useState('none');
 
     const window = useWindowDimensions();
 
