@@ -43,9 +43,7 @@ const CalendarSelectText = styled.Text`
 `;
 
 
-export const MonthScroll = ({ openMonthMenu, setOpenMonthMenu, setMonthName }) => {
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-
+export const MonthScroll = ({ openMonthMenu, setOpenMonthMenu, setMonthName, currentMonth, setCurrentMonth }) => {
     const window = useWindowDimensions();
 
     let monthW = Math.round(window.width / 3.5);
@@ -80,7 +78,7 @@ export const MonthScroll = ({ openMonthMenu, setOpenMonthMenu, setMonthName }) =
         setMonthName(label); 
         setCurrentMonth(value);
         setOpenMonthMenu(false);
-        
+
         offset.value = withSpring(300);
         scrollHeight.value = withDelay(50, withTiming(0));
         scrollWidth.value = withDelay(50, withTiming(0));

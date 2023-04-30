@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { DayScroll } from '../../components/DayScroll';
 import { MonthScroll } from '../../components/MonthScroll';
@@ -35,6 +35,37 @@ export default () => {
     const [monthName, setMonthName] = useState(new Date().toLocaleString('pt-BR', {month: 'long'}));
     const [openMonthMenu, setOpenMonthMenu] = useState(false);
 
+    const [currentDate, setCurrentDate] = useState(new Date().getDate());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+
+    const [date, setDate] = useState('');
+
+    useEffect(() => {
+        let month = new Date().toLocaleString('pt-BR', {month: 'long'});
+        let split = month.split('');
+        split[0] = split[0].toLocaleUpperCase();
+
+        setMonthName(split.join(""));
+    }, []);
+
+    useEffect(() => {
+        let day, month;
+
+        if(currentDate < 10) {
+            day = '0'+currentDate;
+        } else {
+            day = currentDate;
+        }
+
+        if(currentMonth < 10) {
+            month = '0'+currentMonth;
+        } else {
+            month = currentMonth;
+        }
+
+        setDate(day+'-'+month);
+    }, [currentDate]);
+
     return(
         <Container>
            <Welcome>
@@ -53,9 +84,19 @@ export default () => {
                 </CurrentMonth>
             </CalendarHeader>
 
-            <MonthScroll setOpenMonthMenu={setOpenMonthMenu} openMonthMenu={openMonthMenu} setMonthName={setMonthName} />
+            <MonthScroll 
+                currentMonth={currentMonth} 
+                setCurrentMonth={setCurrentMonth} 
+                setOpenMonthMenu={setOpenMonthMenu} 
+                openMonthMenu={openMonthMenu} 
+                setMonthName={setMonthName} 
+            />
 
-            <DayScroll />
+            <DayScroll 
+                currentDate={currentDate} 
+                setCurrentDate={setCurrentDate} 
+                currentMonth={currentMonth} 
+            />
            </Acitivity>
 
            <Report>

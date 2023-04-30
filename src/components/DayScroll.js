@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { FlatList, useWindowDimensions } from 'react-native';
 import styled from 'styled-components/native';
@@ -35,9 +35,7 @@ const CalendarDot = styled.View`
     margin: 10px 0 0 15px;
 `;
 
-export const DayScroll = () => {
-    const [currentDate, setCurrentDate] = useState(new Date().getDate());
-
+export const DayScroll = ({ currentDate, setCurrentDate, currentMonth }) => {
     let today = new Date();
 
     const DayRef = useRef();
@@ -47,10 +45,10 @@ export const DayScroll = () => {
     let offsetW = Math.round((window.width - dayW) / 2);
 
     let days = [];
-    let daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
+    let daysInMonth = new Date(today.getFullYear(), currentMonth, 0).getDate()
 
     for(let i = 1; i <= daysInMonth; i++) {
-        let daysInWeek = new Date(today.getFullYear(), today.getMonth(), i).getDay();
+        let daysInWeek = new Date(today.getFullYear(), currentMonth, i).getDay();
 
         if(daysInWeek === 0) {
             days.push(
