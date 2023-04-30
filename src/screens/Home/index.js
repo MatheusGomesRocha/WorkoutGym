@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import { DayScroll } from '../../components/DayScroll';
 import { MonthScroll } from '../../components/MonthScroll';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { json } from '../../json/data';
+import { FlatList, View, Text} from 'react-native';
 
 import { 
     Container,
@@ -38,7 +41,10 @@ export default () => {
     const [currentDate, setCurrentDate] = useState(new Date().getDate());
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
 
-    const [date, setDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState('');
+    const [currentReport, setCurrentReport] = useState();
+
+    let bgColor = 'transparent';
 
     useEffect(() => {
         let month = new Date().toLocaleString('pt-BR', {month: 'long'});
@@ -63,8 +69,13 @@ export default () => {
             month = currentMonth;
         }
 
-        setDate(day+'-'+month);
+        setSelectedDate(day+'-'+month);
     }, [currentDate]);
+
+    useEffect(() => {
+
+        
+    }, [currentDate, currentMonth]);
 
     return(
         <Container>
@@ -96,10 +107,12 @@ export default () => {
                 currentDate={currentDate} 
                 setCurrentDate={setCurrentDate} 
                 currentMonth={currentMonth} 
+                selectedDate={selectedDate}
+                bgColor={bgColor}
             />
            </Acitivity>
 
-           <Report>
+           {/* <Report>
                 <ReportTitle>Relatório do Dia</ReportTitle>
 
                 <ReportWrapped>
@@ -110,7 +123,7 @@ export default () => {
                             </ReportEmoji>
 
                             <ReportContent>
-                                <ReportValue>105</ReportValue>
+                                <ReportValue>{currentReport.calories}</ReportValue>
                                 <ReportDetail>Calorias</ReportDetail>
                             </ReportContent>
                         </ReportItem>
@@ -121,7 +134,7 @@ export default () => {
                             </ReportEmoji>
 
                             <ReportContent>
-                                <ReportValue>105</ReportValue>
+                                <ReportValue>{currentReport.proteins}</ReportValue>
                                 <ReportDetail>Proteinas</ReportDetail>
                             </ReportContent>
                         </ReportItem>
@@ -134,7 +147,7 @@ export default () => {
                             </ReportEmoji>
 
                             <ReportContent>
-                                <ReportValue>105</ReportValue>
+                                <ReportValue>{currentReport.carbo}</ReportValue>
                                 <ReportDetail>Carbo</ReportDetail>
                             </ReportContent>
                         </ReportItem>
@@ -145,13 +158,13 @@ export default () => {
                             </ReportEmoji>
 
                             <ReportContent>
-                                <ReportValue>105</ReportValue>
+                                <ReportValue>{currentReport.time}</ReportValue>
                                 <ReportDetail>Tempo</ReportDetail>
                             </ReportContent>
                         </ReportItem>
                     </ReportRow>
                 </ReportWrapped>
-           </Report>
+           </Report> */}
         </Container>
     )
 }

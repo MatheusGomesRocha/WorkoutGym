@@ -4,6 +4,7 @@ import { FlatList, useWindowDimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 import { primary, bold, regular } from '../globals';
+import { json } from '../json/data';
 
 const CalendarWrapped = styled.TouchableOpacity`
     align-items: center;
@@ -35,7 +36,7 @@ const CalendarDot = styled.View`
     margin: 10px 0 0 15px;
 `;
 
-export const DayScroll = ({ currentDate, setCurrentDate, currentMonth }) => {
+export const DayScroll = ({ currentDate, setCurrentDate, currentMonth, selectedDate, bgColor }) => {
     let today = new Date();
 
     const DayRef = useRef();
@@ -45,7 +46,7 @@ export const DayScroll = ({ currentDate, setCurrentDate, currentMonth }) => {
     let offsetW = Math.round((window.width - dayW) / 2);
 
     let days = [];
-    let daysInMonth = new Date(today.getFullYear(), currentMonth, 0).getDate()
+    let daysInMonth = new Date(today.getFullYear(), currentMonth, 0).getDate();
 
     for(let i = 1; i <= daysInMonth; i++) {
         let daysInWeek = new Date(today.getFullYear(), currentMonth, i).getDay();
@@ -101,7 +102,7 @@ export const DayScroll = ({ currentDate, setCurrentDate, currentMonth }) => {
         setTimeout(() => {
             scrollToDay(new Date().getDate());
         }, 1000)
-    }, [])
+    }, []);
 
     return(
         <FlatList
@@ -113,7 +114,7 @@ export const DayScroll = ({ currentDate, setCurrentDate, currentMonth }) => {
             data={days}
             renderItem={({item}) => 
                 <CalendarWrapped style={{width: dayW}} onPress={() => scrollToDay(item.day)}>
-                    <CalendarItem bc={currentDate === item.day ? primary : '#cecece'}>
+                    <CalendarItem bg={bgColor} bc={currentDate === item.day ? primary : '#cecece'}>
                         <CalendarDayName>{item.dayOfTheWeek}</CalendarDayName>
                         <CalendarDayValue>{item.day}</CalendarDayValue>
                     </CalendarItem>

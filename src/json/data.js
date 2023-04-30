@@ -1,4 +1,4 @@
-[
+export const json = [
     {id: 1, date: '29-03', data: {calories: 233, proteins: 150, carbo: 127, time: '1h25m'}},
     {id: 2, date: '04-04', data: {calories: 4, proteins: 150, carbo: 127, time: '1h25m'}},
     {id: 3, date: '05-04', data: {calories: 8, proteins: 150, carbo: 127, time: '1h25m'}},
