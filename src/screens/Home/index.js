@@ -42,7 +42,6 @@ export default () => {
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
 
     const [selectedDate, setSelectedDate] = useState('');
-    const [currentReport, setCurrentReport] = useState();
 
     let bgColor = 'transparent';
 
@@ -71,11 +70,6 @@ export default () => {
 
         setSelectedDate(day+'-'+month);
     }, [currentDate]);
-
-    useEffect(() => {
-
-        
-    }, [currentDate, currentMonth]);
 
     return(
         <Container>

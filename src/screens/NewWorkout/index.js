@@ -22,8 +22,10 @@ import {
     Teste
 } from './styles';
 
-import { Animated, StyleSheet, useWindowDimensions, View, TouchableHighlight, Text } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, TouchableHighlight, Text } from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import { Swipeable } from 'react-native-gesture-handler';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -49,104 +51,84 @@ export default () => {
     const [dropdownValue, setDropdownValue] = useState('Peito');
     const [isFocus, setIsFocus] = useState(false);
 
-    const opacity = useRef(new Animated.Value(1)).current;
-    const translation = useRef(new Animated.Value(0)).current;
-    const opacityThumb = useRef(new Animated.Value(0)).current;
-
     const [slideValue, setSlideValue] = useState(5);
+
     let window = useWindowDimensions();
+
+    const headerSize = useSharedValue(200);
+    const offsetLeft = useSharedValue(0);
+    const muscleWidth = useSharedValue(45);
+    const muscleLeft = useSharedValue(0);
+    const offsetTop = useSharedValue(0);
     
     function headerFixed (event) {
         if(event.contentOffset.y > 0) {
-            Animated.timing(opacity, {
-                toValue: 0,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-    
-            Animated.timing(opacity, {
-                toValue: 0,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-    
-            Animated.timing(translation, {
-                toValue: 100,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
+            headerSize.value = withTiming(100, {
+                duration: 250,
+            });
+            offsetLeft.value = withSpring(-300)
+            muscleWidth.value = withTiming(100, {
+                duration: 250,
+            });
+            muscleLeft.value = withSpring(-window.width / 2);
+            offsetTop.value = withTiming(-200, {
+                duration: 250,
+            });
         } else {
-            Animated.timing(opacity, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-    
-            Animated.timing(opacity, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-    
-            Animated.timing(translation, {
-                toValue: 0,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
+            headerSize.value = withTiming(200, {
+                duration: 250,
+            });
+            offsetLeft.value = withSpring(0);
+            muscleWidth.value = withTiming(40, {
+                duration: 250
+            });
+            muscleLeft.value = withSpring(0);
+            offsetTop.value = withTiming(0, {
+                duration: 250,
+            });
         }
     };
 
-    function showThumb (value) {
-        Animated.spring(opacityThumb, {
-            toValue: value,
-            duration: 100,
-            friction: 4,
-            tension: 15,
-            useNativeDriver: false,
-        }).start();
-    }
+    const animatedHeader = useAnimatedStyle(() => {
+        return {
+            height: headerSize.value,
+        };
+    });
 
-    const headerStyle = {
-        height: opacity.interpolate({
-            inputRange: [0, 1],
-            outputRange: [100, 200],
-        }),
-    };
+    const animatedLeft = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateX: offsetLeft.value },
+            ]
+        }
+    })
 
-    const textStyle = {
-        opacity: opacity,
-    };
+    const muscleArea = useAnimatedStyle(() => {
+        return {
+            width: muscleWidth.value+'%',
+            left: muscleLeft.value,
+        }
+    })
 
-    const muscleWidth = {
-        width: translation.interpolate({
-            inputRange: [0, 100],
-            outputRange: ['40%', '110%'],
-        }),
-        left: translation.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, -window.width / 2],
-        }),
-        marginLeft: translation.interpolate({
-            inputRange: [0, 100],
-            outputRange: [10, 0],
-        }),
-    };
-
-    const muscleStyle = {
-        opacity: opacity,
-    };
+    const muscleText = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateY: offsetTop.value }
+            ]
+        }
+    })
 
     return(
         <Container>
-            <Animated.View style={[styles.header, headerStyle]}>
-                <Animated.View style={[styles.left, textStyle]}>
+            <Animated.View style={[styles.header, animatedHeader]}>
+                <Animated.View style={[styles.left, animatedLeft]}>
                     <Animated.Text style={styles.bigText}>New</Animated.Text>
                     <Animated.Text style={styles.smallText}>workout</Animated.Text>
                 </Animated.View>
 
-                <Animated.View style={[styles.muscleArea, muscleWidth]}>
+                <Animated.View style={[styles.muscleArea, muscleArea]}>
                     <View style={{alignItems: 'flex-start', marginLeft: 10}}>
-                        <Animated.Text style={[styles.muscle, muscleStyle]}>Muscle</Animated.Text>
+                        <Animated.Text style={[styles.muscle, muscleText]}>Muscle</Animated.Text>
                         
                         <DropdownButton onPress={() => console.log('olá mundo')}>
                             <Animated.Text style={[styles.muscleName]}>Quadriceps</Animated.Text>
@@ -166,7 +148,7 @@ export default () => {
                 maximumTrackTintColor='#ccc'
                 trackStyle={{backgroundColor: '#ccc', height: 1,}}
                 renderThumbComponent={MyMarker}
-                renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
+                // renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
                 onSlidingStart={() => showThumb(1)}
                 onSlidingComplete={() => showThumb(0)}
             />
