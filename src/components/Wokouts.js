@@ -2,9 +2,12 @@ import React from 'react';
 
 import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { RectButton } from 'react-native-gesture-handler';
 
 import { workouts } from '../json/workouts';
 import { bold, semibold } from '../globals';
+import { View, Text, Animated, StyleSheet, TouchableOpacity } from 'react-native';
 
 const Container = styled.View`
     padding: 0 25px;
@@ -25,7 +28,7 @@ const WorkoutMuscle = styled.Text`
     color: #aaa;
     font-size: 16px;
 `;
-const WorkoutItem = styled.View`
+const WorkoutItem = styled.TouchableOpacity`
     justify-content: center;
     margin-top: 15px;
     height: 90px;
@@ -64,38 +67,78 @@ const WorkoutLike = styled.TouchableOpacity`
     margin-left: auto;
 `;
 
+const SwipeRow = styled.View`
+    flex-direction: row;
+`;
+const SwipeItem = styled.View`
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: blue;
+`;
+
+
 
 export default function Workouts({ filter }) {
+    const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
+    const renderLeftActions = (progress, dragX) => {
+        const trans = dragX.interpolate({
+          inputRange: [0, 100, 101],
+          outputRange: [-200, 1, 1],
+        });
+    
+        const styles = StyleSheet.create({
+            swipe: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 15,
+                height: 90,
+                width: '28%',
+            }
+        });
+    
+        return (
+            <Animated.View style={[styles.swipe, {transform: [{translateX: trans}]}]}>
+                <SwipeItem></SwipeItem>
+            </Animated.View>
+        );
+    };
+
+    
     return(
         <Container>
             {workouts.map((item, k) => (
                 item.muscle === 'Biceps' ? 
-                    <>
+                    <View key={k}>
                         <WorkoutHeader>
                             <WorkoutBig>Treino {k+1}</WorkoutBig>
                             <WorkoutMuscle>{item.muscle}</WorkoutMuscle>
                         </WorkoutHeader>
 
                         {item.data.map((it, kk) => (
-                            <WorkoutItem>
-                                <WorkoutDetail>
-                                    <WorkoutMiniature></WorkoutMiniature>
-            
-                                    <WorkoutContent>
-                                        <WorkoutLine></WorkoutLine>
-                                    
-                                        <WorkoutName>{it.name}</WorkoutName>
-            
-                                        <WorkoutSeries>{`${it.sets}x${it.reps}`} vezes</WorkoutSeries>
-                                    </WorkoutContent>
-            
-                                    <WorkoutLike>
-                                        <AntDesign name="hearto" color="#000" size={18} />
-                                    </WorkoutLike>
-                                </WorkoutDetail>
-                            </WorkoutItem>
+                            <Swipeable renderLeftActions={renderLeftActions} key={kk}>
+                                <WorkoutItem>
+                                    <WorkoutDetail>
+                                        <WorkoutMiniature></WorkoutMiniature>
+                
+                                        <WorkoutContent>
+                                            <WorkoutLine></WorkoutLine>
+                                        
+                                            <WorkoutName>{it.name}</WorkoutName>
+                
+                                            <WorkoutSeries>{`${it.sets}x${it.reps}`} vezes</WorkoutSeries>
+                                        </WorkoutContent>
+                
+                                        <WorkoutLike>
+                                            <AntDesign name="hearto" color="#000" size={18} />
+                                        </WorkoutLike>
+                                    </WorkoutDetail>
+                                </WorkoutItem>
+                            </Swipeable>
                         ))}
-                    </>
+                    </View>
                     
                     :
                     
@@ -104,3 +147,11 @@ export default function Workouts({ filter }) {
         </Container>
     )
 }
+
+const styles = StyleSheet.create({
+    animatedButton: {
+        justifyContent: 'center',
+        marginTop: 15,
+        height: 90
+    }
+});

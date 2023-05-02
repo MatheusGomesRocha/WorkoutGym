@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import AnimatedHeader from '../../components/AnimatedHeader';
 import Workouts from '../../components/Wokouts';
 
+import { Text } from 'react-native';
 import {
     Container,
 
