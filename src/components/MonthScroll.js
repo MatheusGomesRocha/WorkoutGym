@@ -90,7 +90,6 @@ export const MonthScroll = ({ openMonthMenu, setOpenMonthMenu, setMonthName, cur
                 <FlatList
                     data={months}
                     horizontal
-
                     renderItem={({item}) => 
                         <CalendarMonth style={{width: monthW}}>
                             <CalendarSelect onPress={() => selectMonth(item.label, item.value)} bc={currentMonth === item.value ? 'red' : '#cecece'} bg={currentMonth === item.value ? 'red' : 'transparent'}>

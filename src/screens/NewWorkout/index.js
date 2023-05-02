@@ -1,26 +1,13 @@
 import React, { useState, useRef } from 'react';
 
+import AnimatedHeader from '../../components/AnimatedHeader';
+import Workouts from '../../components/Wokouts';
+
 import {
     Container,
 
     ScrollContent,
-
-    WorkoutItem,
-    WorkoutHeader,
-    WorkoutBig,
-    WorkoutMuscle,
-    WorkoutDetail,
-    WorkoutMiniature,
-    WorkoutContent,
-    WorkoutLine,
-    WorkoutName,
-    WorkoutSeries,
-    WorkoutLike,
 } from './styles';
-
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-import AnimatedHeader from '../../components/AnimatedHeader';
 
 const data = [
     { label: 'Peito', value: '1' },
@@ -33,9 +20,10 @@ const data = [
     { label: 'Ombro', value: '8' },
 ];
 
+
 export default () => {
     const [open, setOpen] = useState(false);
-    const [dropdownValue, setDropdownValue] = useState('Peito');
+    const [filter, setFilter] = useState('Peito');
     const [isFocus, setIsFocus] = useState(false);
 
     const [offset, setOffset] = useState(0);
@@ -48,133 +36,12 @@ export default () => {
         }
     };
 
-    const DATA = [
-        {
-          title: 'Main dishes',
-          data: ['Pizza', 'Burger', 'Risotto'],
-        },
-        {
-          title: 'Sides',
-          data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-        },
-        {
-          title: 'Drinks',
-          data: ['Water', 'Coke', 'Beer'],
-        },
-        {
-          title: 'Desserts',
-          data: ['Cheese Cake', 'Ice Cream'],
-        },
-      ];
-
     return(
         <Container>
             <AnimatedHeader contentOffset={offset} />
 
             <ScrollContent onScroll={(event) => headerFixed(event.nativeEvent)}>
-                <WorkoutItem>
-                    <WorkoutHeader>
-                        <WorkoutBig>Treino 1</WorkoutBig>
-
-                        <WorkoutMuscle>Glúteo e Pernas</WorkoutMuscle>
-                    </WorkoutHeader>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-
-                    <WorkoutDetail>
-                         <WorkoutMiniature></WorkoutMiniature>
-
-                         <WorkoutContent>
-                            <WorkoutLine></WorkoutLine>
-                        
-                            <WorkoutName>Rosca Direta</WorkoutName>
-
-                            <WorkoutSeries>4x15 vezes</WorkoutSeries>
-                         </WorkoutContent>
-
-                         <WorkoutLike>
-                            <AntDesign name="hearto" color="#000" size={18} />
-                         </WorkoutLike>
-                    </WorkoutDetail>
-                </WorkoutItem>
+                <Workouts />
             </ScrollContent>
         </Container>
     )

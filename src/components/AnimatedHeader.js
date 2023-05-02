@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
+import styled from 'styled-components/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Slider } from '@miblanchard/react-native-slider';
 
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
-import styled from 'styled-components/native';
 
 import { bold, regular, semibold } from '../globals';
 
