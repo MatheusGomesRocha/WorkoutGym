@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -29,9 +29,12 @@ const WorkoutMuscle = styled.Text`
     font-size: 16px;
 `;
 const WorkoutItem = styled.TouchableOpacity`
+    background-color: #fff;
     justify-content: center;
-    margin-top: 15px;
     height: 90px;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 15px 1px 1px 1px;
 `;
 const WorkoutDetail = styled.View`
     flex-direction: row;
@@ -70,7 +73,7 @@ const WorkoutLike = styled.TouchableOpacity`
 const SwipeRow = styled.View`
     flex-direction: row;
 `;
-const SwipeItem = styled.View`
+const SwipeItem = styled.TouchableOpacity`
     width: 60px;
     height: 60px;
     border-radius: 30px;
@@ -80,11 +83,9 @@ const SwipeItem = styled.View`
 
 
 export default function Workouts({ filter }) {
-    const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
     const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
-          inputRange: [0, 100, 101],
+          inputRange: [0, 170, 171],
           outputRange: [-200, 1, 1],
         });
     
@@ -92,16 +93,23 @@ export default function Workouts({ filter }) {
             swipe: {
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'space-around',
                 marginTop: 15,
                 height: 90,
-                width: '28%',
+                width: '50%',
+                backgroundColor: "#fff",
             }
         });
     
         return (
             <Animated.View style={[styles.swipe, {transform: [{translateX: trans}]}]}>
-                <SwipeItem></SwipeItem>
+                <Animated.View>
+                    <SwipeItem></SwipeItem>
+                </Animated.View>
+
+                <Animated.View>
+                    <SwipeItem></SwipeItem>
+                </Animated.View>
             </Animated.View>
         );
     };

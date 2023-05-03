@@ -35,27 +35,27 @@ export default function AnimatedHeader ({ contentOffset }) {
 
     if(contentOffset > 0) {
         headerSize.value = withTiming(100, {
-            duration: 250,
+            duration: 100,
         });
         offsetLeft.value = withSpring(-300)
         muscleWidth.value = withTiming(100, {
-            duration: 250,
+            duration: 100,
         });
         muscleLeft.value = withSpring(-window.width / 2);
         offsetTop.value = withTiming(-200, {
-            duration: 250,
+            duration: 100,
         });
     } else {
         headerSize.value = withTiming(200, {
-            duration: 250,
+            duration: 100,
         });
         offsetLeft.value = withSpring(0);
         muscleWidth.value = withTiming(40, {
-            duration: 250
+            duration: 100
         });
         muscleLeft.value = withSpring(0);
         offsetTop.value = withTiming(0, {
-            duration: 250,
+            duration: 100,
         });
     }
 
