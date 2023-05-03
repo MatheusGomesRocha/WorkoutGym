@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton } from 'react-native-gesture-handler';
 
 import { workouts } from '../json/workouts';
 import { bold, semibold } from '../globals';
-import { View, Text, Animated, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Animated, StyleSheet, Modal } from 'react-native';
+import ModalReplace from './ModalReplace';
 
 const Container = styled.View`
     padding: 0 25px;
@@ -74,47 +78,118 @@ const SwipeRow = styled.View`
     flex-direction: row;
 `;
 const SwipeItem = styled.TouchableOpacity`
-    width: 60px;
-    height: 60px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     border-radius: 30px;
-    background-color: blue;
 `;
 
 
-
 export default function Workouts({ filter }) {
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const offsetEdit = useRef(new Animated.Value(0)).current;
+    const offsetDelete = useRef(new Animated.Value(0)).current;
+
+    function buttonPressedIn (value) {
+        if(value === 0) {
+            Animated.spring(offsetEdit, {
+                toValue: 1,
+                friction: 1,
+                duration: 250,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            Animated.spring(offsetDelete, {
+                toValue: 1,
+                friction: 1,
+                duration: 250,
+                useNativeDriver: false,
+            }).start();
+        }
+    }
+
+    function buttonPressedOut (value) {
+        if(value === 0) {
+            setModalVisible(true);
+            
+            Animated.timing(offsetEdit, {
+                toValue: 0,
+                duration: 250,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            Animated.timing(offsetDelete, {
+                toValue: 0,
+                duration: 250,
+                useNativeDriver: false,
+            }).start();
+        }
+    }
+
     const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
           inputRange: [0, 170, 171],
           outputRange: [-200, 1, 1],
         });
-    
+
         const styles = StyleSheet.create({
             swipe: {
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'space-around',
                 marginTop: 15,
                 height: 90,
-                width: '50%',
+                width: '45%',
                 backgroundColor: "#fff",
+            },
+
+            itemEdit: {
+                backgroundColor: '#15192c',
+                width: offsetEdit.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [50, 60],
+                }),
+                height: offsetEdit.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [50, 60]
+                }),
+                borderRadius: 40,
+                marginLeft: 30,
+            },
+
+            itemDelete: {
+                backgroundColor: '#fd2254',
+                width: offsetDelete.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [50, 60],
+                }),
+                height: offsetDelete.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [50, 60]
+                }),
+                borderRadius: 40,
+                marginLeft: 20,
             }
         });
     
         return (
             <Animated.View style={[styles.swipe, {transform: [{translateX: trans}]}]}>
-                <Animated.View>
-                    <SwipeItem></SwipeItem>
+                <Animated.View style={[styles.itemEdit]}>
+                    <SwipeItem onPressIn={() => buttonPressedIn(0)} onPressOut={() => buttonPressedOut(0)}>
+                        <MaterialCommunityIcons color="#fff" size={25} name="find-replace" />
+                    </SwipeItem>
                 </Animated.View>
 
-                <Animated.View>
-                    <SwipeItem></SwipeItem>
+                <Animated.View style={[styles.itemDelete]}>
+                    <SwipeItem onPressIn={() => buttonPressedIn(1)} onPressOut={() => buttonPressedOut(1)}>
+                        <Feather color="#fff" size={25} name="x" />
+                    </SwipeItem>
                 </Animated.View>
             </Animated.View>
         );
     };
 
-    
     return(
         <Container>
             {workouts.map((item, k) => (
@@ -152,6 +227,8 @@ export default function Workouts({ filter }) {
                     
                     null
             ))}
+
+            <ModalReplace modalVisible={modalVisible} setModalVisible={setModalVisible} />
         </Container>
     )
 }

@@ -5,14 +5,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Slider } from '@miblanchard/react-native-slider';
 
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, } from 'react-native-reanimated';
 
 import { bold, regular, semibold } from '../globals';
 
 import { MyThumb } from './Slider/MyThumb';
 import { MyMarker } from './Slider/MyMarker';
 
-const Container = styled.View``;
+const Container = styled.View`
+    height: 213px;
+`;
 const DropdownButton = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
@@ -20,6 +22,50 @@ const DropdownButton = styled.TouchableOpacity`
 const MuscleWrapped = styled.View`
     align-items: flex-start;
     margin-left: 10px;
+`;
+const Header = styled.View`
+    flex-direction: row;
+    align-items: center;
+    padding: 0 40px;
+    height: 180px;
+`;
+const Left = styled.View`
+    border-right-color: #eee;
+    border-right-width: 1px;
+    padding-right: 50px;
+`;
+const BigText = styled.Text`
+    color: #000;
+    font-size: 35px;
+    font-family: ${bold};
+`;
+const SmallText = styled.Text`
+    color: #ccc;
+    font-family: ${regular};
+    font-size: 35px;
+    margin-top: -12px;
+`; 
+const MuscleArea = styled.View`
+    align-items: center;
+    margin-left: 20px;
+`;
+const Muscle = styled.Text`
+    color: #aaa;
+    font-family: ${semibold};
+    text-align: left;
+    font-size: 12px;
+`;
+const MuscleSelect = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+const MuscleName = styled.Text`
+    color: #000;
+    text-align: center;
+    font-family: ${semibold};
+    font-size: 18px;
+    margin-right: auto;
 `;
 
 export default function AnimatedHeader ({ contentOffset }) {
@@ -33,31 +79,21 @@ export default function AnimatedHeader ({ contentOffset }) {
     const muscleLeft = useSharedValue(0);
     const offsetTop = useSharedValue(0);
 
-    if(contentOffset > 0) {
-        headerSize.value = withTiming(100, {
-            duration: 100,
-        });
-        offsetLeft.value = withSpring(-300)
-        muscleWidth.value = withTiming(100, {
-            duration: 100,
-        });
-        muscleLeft.value = withSpring(-window.width / 2);
-        offsetTop.value = withTiming(-200, {
-            duration: 100,
-        });
-    } else {
-        headerSize.value = withTiming(200, {
-            duration: 100,
-        });
-        offsetLeft.value = withSpring(0);
-        muscleWidth.value = withTiming(40, {
-            duration: 100
-        });
-        muscleLeft.value = withSpring(0);
-        offsetTop.value = withTiming(0, {
-            duration: 100,
-        });
-    }
+    // if(contentOffset > 0) {
+    //     headerSize.value = withSpring(100);
+    //     offsetLeft.value = withSpring(-300)
+    //     muscleWidth.value = withSpring(100);
+    //     muscleLeft.value = withSpring(-window.width / 2);
+    //     offsetTop.value = withSpring(-200);
+    // } else {
+    //     headerSize.value = withSpring(200);
+    //     offsetLeft.value = withSpring(0);
+    //     muscleWidth.value = withSpring(40, {
+    //         duration: 100
+    //     });
+    //     muscleLeft.value = withSpring(0);
+    //     offsetTop.value = withSpring(0);
+    // }
 
     function showThumb (value) {
         // Animated.spring(opacityThumb, {
@@ -69,53 +105,54 @@ export default function AnimatedHeader ({ contentOffset }) {
         // }).start();
     }
     
-    const animatedHeader = useAnimatedStyle(() => {
-        return {
-            height: headerSize.value,
-        };
-    });
+    // const animatedHeader = useAnimatedStyle(() => {
+    //     return {
+    //         height: headerSize.value,
+    //     };
+    // });
 
-    const animatedLeft = useAnimatedStyle(() => {
-        return {
-            transform: [
-                { translateX: offsetLeft.value },
-            ]
-        }
-    })
+    // const animatedLeft = useAnimatedStyle(() => {
+    //     return {
+    //         transform: [
+    //             { translateX: offsetLeft.value },
+    //         ]
+    //     }
+    // })
 
-    const muscleArea = useAnimatedStyle(() => {
-        return {
-            width: muscleWidth.value+'%',
-            left: muscleLeft.value,
-        }
-    })
+    // const muscleArea = useAnimatedStyle(() => {
+    //     return {
+    //         width: muscleWidth.value+'%',
+    //         left: muscleLeft.value,
+    //     }
+    // })
 
-    const muscleText = useAnimatedStyle(() => {
-        return {
-            transform: [
-                { translateY: offsetTop.value }
-            ]
-        }
-    })
+    // const muscleText = useAnimatedStyle(() => {
+    //     return {
+    //         transform: [
+    //             { translateY: offsetTop.value }
+    //         ]
+    //     }
+    // })
+
     return (
         <Container>
-            <Animated.View style={[styles.header, animatedHeader]}>
-                <Animated.View style={[styles.left, animatedLeft]}>
-                    <Animated.Text style={styles.bigText}>New</Animated.Text>
-                    <Animated.Text style={styles.smallText}>workout</Animated.Text>
-                </Animated.View>
+            <Header>
+                <Left>
+                    <BigText>New</BigText>
+                    <SmallText>workout</SmallText>
+                </Left>
 
-                <Animated.View style={[styles.muscleArea, muscleArea]}>
+                <MuscleArea>
                     <MuscleWrapped>
-                        <Animated.Text style={[styles.muscle, muscleText]}>Muscle</Animated.Text>
+                        <Muscle>Muscle</Muscle>
                         
                         <DropdownButton onPress={() => console.log('olá mundo')}>
-                            <Animated.Text style={[styles.muscleName]}>Quadriceps</Animated.Text>
+                            <MuscleName>Quadriceps</MuscleName>
                             <FontAwesome style={{marginLeft: 10}} name="angle-down" color="#000" size={15} />  
                         </DropdownButton>
                     </MuscleWrapped>
-                </Animated.View>
-            </Animated.View>
+                </MuscleArea>
+            </Header>
 
             <Slider
                 value={slideValue}
@@ -141,6 +178,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 40,
         zIndex: 999,
+        height: 150,
     },
 
     left: {

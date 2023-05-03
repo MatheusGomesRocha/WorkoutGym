@@ -11,7 +11,7 @@ const Marker = styled.View`
     align-items: center;
     justify-content: center;
     shadow-color: '#000';
-    elevation: 50;
+    elevation: 10;
     width: 25px;
     height: 25px;
     border-radius: 3px;
