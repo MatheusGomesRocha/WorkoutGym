@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,7 +9,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton } from 'react-native-gesture-handler';
 
 import { workouts } from '../json/workouts';
-import { bold, semibold } from '../globals';
+import { bold, primary, secondary, semibold } from '../globals';
 import { View, Text, Animated, StyleSheet, Modal } from 'react-native';
 import ModalReplace from './ModalReplace';
 
@@ -91,6 +91,7 @@ export default function Workouts({ filter }) {
 
     const offsetEdit = useRef(new Animated.Value(0)).current;
     const offsetDelete = useRef(new Animated.Value(0)).current;
+    const t = useRef(new Animated.Value(0)).current;
 
     function buttonPressedIn (value) {
         if(value === 0) {
@@ -145,7 +146,7 @@ export default function Workouts({ filter }) {
             },
 
             itemEdit: {
-                backgroundColor: '#15192c',
+                backgroundColor: secondary,
                 width: offsetEdit.interpolate({
                     inputRange: [0, 1],
                     outputRange: [50, 60],
@@ -156,10 +157,11 @@ export default function Workouts({ filter }) {
                 }),
                 borderRadius: 40,
                 marginLeft: 30,
+                
             },
 
             itemDelete: {
-                backgroundColor: '#fd2254',
+                backgroundColor: primary,
                 width: offsetDelete.interpolate({
                     inputRange: [0, 1],
                     outputRange: [50, 60],
@@ -232,11 +234,3 @@ export default function Workouts({ filter }) {
         </Container>
     )
 }
-
-const styles = StyleSheet.create({
-    animatedButton: {
-        justifyContent: 'center',
-        marginTop: 15,
-        height: 90
-    }
-});

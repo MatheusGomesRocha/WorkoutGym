@@ -26,7 +26,7 @@ const MuscleWrapped = styled.View`
 const Header = styled.View`
     flex-direction: row;
     align-items: center;
-    padding: 0 40px;
+    justify-content: center;
     height: 180px;
 `;
 const Left = styled.View`
