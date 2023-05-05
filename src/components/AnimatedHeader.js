@@ -11,6 +11,7 @@ import { bold, regular, semibold } from '../globals';
 
 import { MyThumb } from './Slider/MyThumb';
 import { MyMarker } from './Slider/MyMarker';
+import ModalMuscle from './Modal/ModalMuscle';
 
 const Container = styled.View`
     height: 213px;
@@ -70,6 +71,8 @@ const MuscleName = styled.Text`
 
 export default function AnimatedHeader ({ contentOffset }) {
     const [slideValue, setSlideValue] = useState(5);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [filter, setFilter] = useState('Biceps');
 
     let window = useWindowDimensions();
 
@@ -146,12 +149,14 @@ export default function AnimatedHeader ({ contentOffset }) {
                     <MuscleWrapped>
                         <Muscle>Muscle</Muscle>
                         
-                        <DropdownButton onPress={() => console.log('olá mundo')}>
-                            <MuscleName>Quadriceps</MuscleName>
+                        <DropdownButton onPress={() => setModalVisible(true)}>
+                            <MuscleName>{filter}</MuscleName>
                             <FontAwesome style={{marginLeft: 10}} name="angle-down" color="#000" size={15} />  
                         </DropdownButton>
                     </MuscleWrapped>
                 </MuscleArea>
+
+                <ModalMuscle modalVisible={modalVisible} setModalVisible={setModalVisible} filter={filter} setFilter={setFilter} />
             </Header>
 
             <Slider

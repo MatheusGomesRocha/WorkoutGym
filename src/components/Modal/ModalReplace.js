@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { Modal } from 'react-native';
-import { grayish, secondary, bold, semibold, regular, lightgray } from '../globals';
+import { grayish, secondary, bold, semibold, regular, lightgray } from '../../globals';
 
 const Container = styled.View`
     flex: 1;
@@ -110,7 +110,8 @@ export default ModalReplace = ({modalVisible, setModalVisible}) => {
             visible={modalVisible}
             onRequestClose={() => {
                 setModalVisible(!modalVisible);
-            }}>
+            }}
+        >
             <Container>
                 <Area>
                     <ButtonClose onPress={() => setModalVisible(false)} />

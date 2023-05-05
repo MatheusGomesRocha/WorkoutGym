@@ -11,7 +11,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { workouts } from '../json/workouts';
 import { bold, primary, secondary, semibold } from '../globals';
 import { View, Text, Animated, StyleSheet, Modal } from 'react-native';
-import ModalReplace from './ModalReplace';
+import ModalReplace from './Modal/ModalReplace';
 
 const Container = styled.View`
     padding: 0 25px;
