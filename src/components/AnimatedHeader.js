@@ -69,10 +69,9 @@ const MuscleName = styled.Text`
     margin-right: auto;
 `;
 
-export default function AnimatedHeader ({ contentOffset }) {
+export default function AnimatedHeader ({ filter, setFilter, contentOffset }) {
     const [slideValue, setSlideValue] = useState(5);
     const [modalVisible, setModalVisible] = useState(false);
-    const [filter, setFilter] = useState('Biceps');
 
     let window = useWindowDimensions();
 

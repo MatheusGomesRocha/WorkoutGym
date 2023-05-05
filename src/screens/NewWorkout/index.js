@@ -23,9 +23,7 @@ const data = [
 
 
 export default () => {
-    const [open, setOpen] = useState(false);
-    const [filter, setFilter] = useState('Peito');
-    const [isFocus, setIsFocus] = useState(false);
+    const [filter, setFilter] = useState('Biceps');
 
     const [offset, setOffset] = useState(0);
     
@@ -39,10 +37,10 @@ export default () => {
 
     return(
         <Container>
-            <AnimatedHeader contentOffset={offset} />
+            <AnimatedHeader filter={filter} setFilter={setFilter} contentOffset={offset} />
 
             <ScrollContent onScroll={(event) => headerFixed(event.nativeEvent)}>
-                <Workouts />
+                <Workouts filter={filter} setFilter={setFilter} />
             </ScrollContent>
         </Container>
     )

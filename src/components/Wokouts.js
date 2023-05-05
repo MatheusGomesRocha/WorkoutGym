@@ -6,11 +6,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Feather from 'react-native-vector-icons/Feather';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { RectButton } from 'react-native-gesture-handler';
+import { Animated, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { workouts } from '../json/workouts';
 import { bold, primary, secondary, semibold } from '../globals';
-import { View, Text, Animated, StyleSheet, Modal } from 'react-native';
+
 import ModalReplace from './Modal/ModalReplace';
 
 const Container = styled.View`
@@ -20,7 +20,7 @@ const WorkoutHeader = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 60px;
+    margin-top: ${props=>props.mTop};
 `;
 const WorkoutBig = styled.Text`
     font-family: ${bold};
@@ -37,8 +37,7 @@ const WorkoutItem = styled.TouchableOpacity`
     justify-content: center;
     height: 90px;
     border-radius: 10px;
-    padding: 0 10px;
-    margin: 15px 1px 1px 1px;
+    margin-top: 15px;
 `;
 const WorkoutDetail = styled.View`
     flex-direction: row;
@@ -88,10 +87,18 @@ const SwipeItem = styled.TouchableOpacity`
 
 export default function Workouts({ filter }) {
     const [modalVisible, setModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const offsetEdit = useRef(new Animated.Value(0)).current;
     const offsetDelete = useRef(new Animated.Value(0)).current;
-    const t = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        setLoading(true);
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500)
+    }, [filter]);
 
     function buttonPressedIn (value) {
         if(value === 0) {
@@ -194,41 +201,44 @@ export default function Workouts({ filter }) {
 
     return(
         <Container>
-            {workouts.map((item, k) => (
-                item.muscle === 'Biceps' ? 
-                    <View key={k}>
-                        <WorkoutHeader>
-                            <WorkoutBig>Treino {k+1}</WorkoutBig>
-                            <WorkoutMuscle>{item.muscle}</WorkoutMuscle>
-                        </WorkoutHeader>
-
-                        {item.data.map((it, kk) => (
-                            <Swipeable renderLeftActions={renderLeftActions} key={kk}>
-                                <WorkoutItem>
-                                    <WorkoutDetail>
-                                        <WorkoutMiniature></WorkoutMiniature>
-                
-                                        <WorkoutContent>
-                                            <WorkoutLine></WorkoutLine>
-                                        
-                                            <WorkoutName>{it.name}</WorkoutName>
-                
-                                            <WorkoutSeries>{`${it.sets}x${it.reps}`} vezes</WorkoutSeries>
-                                        </WorkoutContent>
-                
-                                        <WorkoutLike>
-                                            <AntDesign name="hearto" color="#000" size={18} />
-                                        </WorkoutLike>
-                                    </WorkoutDetail>
-                                </WorkoutItem>
-                            </Swipeable>
-                        ))}
-                    </View>
+            {loading ?
+                <ActivityIndicator style={{marginTop: 80}} size="large" color={primary} />
+                :
+                workouts.map((item, k) => (
+                    item.muscle === filter ?
+                        <Animated.View key={k}>
+                            <WorkoutHeader mTop={k >= 1 ? '70px' : '20px'}>
+                                <WorkoutBig>Treino {k+1}</WorkoutBig>
+                                <WorkoutMuscle>{item.muscle}</WorkoutMuscle>
+                            </WorkoutHeader>
+    
+                            {item.data.map((it, kk) => (
+                                <Swipeable renderLeftActions={renderLeftActions} key={kk}>
+                                    <WorkoutItem>
+                                        <WorkoutDetail>
+                                            <WorkoutMiniature></WorkoutMiniature>
                     
+                                            <WorkoutContent>
+                                                <WorkoutLine></WorkoutLine>
+                                            
+                                                <WorkoutName>{it.name}</WorkoutName>
+                    
+                                                <WorkoutSeries>{`${it.sets}x${it.reps}`} vezes</WorkoutSeries>
+                                            </WorkoutContent>
+                    
+                                            <WorkoutLike>
+                                                <AntDesign name="hearto" color="#000" size={18} />
+                                            </WorkoutLike>
+                                        </WorkoutDetail>
+                                    </WorkoutItem>
+                                </Swipeable>
+                            ))}
+                        </Animated.View>
                     :
-                    
+    
                     null
-            ))}
+                ))
+            }
 
             <ModalReplace modalVisible={modalVisible} setModalVisible={setModalVisible} />
         </Container>
