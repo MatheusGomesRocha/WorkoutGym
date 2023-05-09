@@ -17,4 +17,49 @@ export const workouts = [
         {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
     ]},
 
+    {id: 3, muscle: 'Costas', data: [
+        {id: 1, name: 'Martelo', sets: 4, reps: 12},
+        {id: 2, name: 'Rosca Direta', sets: 4, reps: 15},
+        {id: 3, name: 'Rosca Scott', sets: 4, reps: 10},
+        {id: 4, name: 'Rosca Alternada', sets: 3, reps: 15},
+        {id: 5, name: 'Rosca Inversa', sets: 3, reps: 10},
+        {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
+    ]},
+
+    {id: 4, muscle: 'Triceps', data: [
+        {id: 1, name: 'Martelo', sets: 4, reps: 12},
+        {id: 2, name: 'Rosca Direta', sets: 4, reps: 15},
+        {id: 3, name: 'Rosca Scott', sets: 4, reps: 10},
+        {id: 4, name: 'Rosca Alternada', sets: 3, reps: 15},
+        {id: 5, name: 'Rosca Inversa', sets: 3, reps: 10},
+        {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
+    ]},
+
+    {id: 5, muscle: 'Peito', data: [
+        {id: 1, name: 'Martelo', sets: 4, reps: 12},
+        {id: 2, name: 'Rosca Direta', sets: 4, reps: 15},
+        {id: 3, name: 'Rosca Scott', sets: 4, reps: 10},
+        {id: 4, name: 'Rosca Alternada', sets: 3, reps: 15},
+        {id: 5, name: 'Rosca Inversa', sets: 3, reps: 10},
+        {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
+    ]},
+
+    {id: 6, muscle: 'Posterior', data: [
+        {id: 1, name: 'Martelo', sets: 4, reps: 12},
+        {id: 2, name: 'Rosca Direta', sets: 4, reps: 15},
+        {id: 3, name: 'Rosca Scott', sets: 4, reps: 10},
+        {id: 4, name: 'Rosca Alternada', sets: 3, reps: 15},
+        {id: 5, name: 'Rosca Inversa', sets: 3, reps: 10},
+        {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
+    ]},
+
+    {id: 7, muscle: 'Quadriceps', data: [
+        {id: 1, name: 'Martelo', sets: 4, reps: 12},
+        {id: 2, name: 'Rosca Direta', sets: 4, reps: 15},
+        {id: 3, name: 'Rosca Scott', sets: 4, reps: 10},
+        {id: 4, name: 'Rosca Alternada', sets: 3, reps: 15},
+        {id: 5, name: 'Rosca Inversa', sets: 3, reps: 10},
+        {id: 6, name: 'Rosca Unilateral na Polia', sets: 3, reps: 12},
+    ]},
+
 ];

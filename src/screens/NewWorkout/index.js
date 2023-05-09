@@ -37,11 +37,9 @@ export default () => {
 
     return(
         <Container>
-            <AnimatedHeader filter={filter} setFilter={setFilter} contentOffset={offset} />
+            {/* <AnimatedHeader filter={filter} setFilter={setFilter} contentOffset={offset} /> */}
 
-            <ScrollContent onScroll={(event) => headerFixed(event.nativeEvent)}>
-                <Workouts filter={filter} setFilter={setFilter} />
-            </ScrollContent>
+            <Workouts filter={filter} setFilter={setFilter} />
         </Container>
     )
 }

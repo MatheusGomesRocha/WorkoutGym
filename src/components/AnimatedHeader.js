@@ -14,7 +14,6 @@ import { MyMarker } from './Slider/MyMarker';
 import ModalMuscle from './Modal/ModalMuscle';
 
 const Container = styled.View`
-    height: 213px;
 `;
 const DropdownButton = styled.TouchableOpacity`
     flex-direction: row;
@@ -28,7 +27,6 @@ const Header = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 180px;
 `;
 const Left = styled.View`
     border-right-color: #eee;
@@ -139,11 +137,6 @@ export default function AnimatedHeader ({ filter, setFilter, contentOffset }) {
     return (
         <Container>
             <Header>
-                <Left>
-                    <BigText>New</BigText>
-                    <SmallText>workout</SmallText>
-                </Left>
-
                 <MuscleArea>
                     <MuscleWrapped>
                         <Muscle>Muscle</Muscle>
@@ -158,7 +151,7 @@ export default function AnimatedHeader ({ filter, setFilter, contentOffset }) {
                 <ModalMuscle modalVisible={modalVisible} setModalVisible={setModalVisible} filter={filter} setFilter={setFilter} />
             </Header>
 
-            <Slider
+            {/* <Slider
                 value={slideValue}
                 onValueChange={e => setSlideValue(e[0])}
                 minimumValue={0}
@@ -171,7 +164,7 @@ export default function AnimatedHeader ({ filter, setFilter, contentOffset }) {
                 // renderAboveThumbComponent={() => <MyThumb slideValue={slideValue} opacityThumb={opacityThumb} />}
                 onSlidingStart={() => showThumb(1)}
                 onSlidingComplete={() => showThumb(0)}
-            />
+            /> */}
         </Container>
     )
 }

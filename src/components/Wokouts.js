@@ -1,26 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
+
 import styled from 'styled-components/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { Animated, StyleSheet, ActivityIndicator } from 'react-native';
+import { Animated, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 
 import { workouts } from '../json/workouts';
 import { bold, primary, secondary, semibold } from '../globals';
 
 import ModalReplace from './Modal/ModalReplace';
+import AnimatedHeader from './AnimatedHeader';
 
 const Container = styled.View`
     padding: 0 25px;
 `;
+const Workout = styled.View``;
 const WorkoutHeader = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: ${props=>props.mTop};
 `;
 const WorkoutBig = styled.Text`
     font-family: ${bold};
@@ -77,23 +80,33 @@ const SwipeRow = styled.View`
     flex-direction: row;
 `;
 const SwipeItem = styled.TouchableOpacity`
+    background-color: ${props=>props.bg};
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 50px;
+    height: 50px;
     border-radius: 30px;
 `;
 
 
-export default function Workouts({ filter }) {
+export default function Workouts({ filter, setFilter }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(workouts);
+
+    const navigation = useNavigation();
 
     const offsetEdit = useRef(new Animated.Value(0)).current;
     const offsetDelete = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         setLoading(true);
+
+        setData(workouts.filter(item => item.muscle === filter));
+
+        navigation.setOptions({
+            title: <AnimatedHeader filter={filter} setFilter={setFilter} />
+        })
 
         setTimeout(() => {
             setLoading(false);
@@ -146,57 +159,94 @@ export default function Workouts({ filter }) {
             swipe: {
                 flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
                 marginTop: 15,
                 height: 90,
-                width: '45%',
+                width: '35%',
                 backgroundColor: "#fff",
             },
-
-            itemEdit: {
-                backgroundColor: secondary,
-                width: offsetEdit.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [50, 60],
-                }),
-                height: offsetEdit.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [50, 60]
-                }),
-                borderRadius: 40,
-                marginLeft: 30,
-                
-            },
-
-            itemDelete: {
-                backgroundColor: primary,
-                width: offsetDelete.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [50, 60],
-                }),
-                height: offsetDelete.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [50, 60]
-                }),
-                borderRadius: 40,
-                marginLeft: 20,
-            }
         });
     
         return (
             <Animated.View style={[styles.swipe, {transform: [{translateX: trans}]}]}>
-                <Animated.View style={[styles.itemEdit]}>
-                    <SwipeItem onPressIn={() => buttonPressedIn(0)} onPressOut={() => buttonPressedOut(0)}>
-                        <MaterialCommunityIcons color="#fff" size={25} name="find-replace" />
-                    </SwipeItem>
-                </Animated.View>
-
-                <Animated.View style={[styles.itemDelete]}>
-                    <SwipeItem onPressIn={() => buttonPressedIn(1)} onPressOut={() => buttonPressedOut(1)}>
-                        <Feather color="#fff" size={25} name="x" />
-                    </SwipeItem>
-                </Animated.View>
+                <SwipeItem bg={secondary}>
+                    <MaterialCommunityIcons color="#fff" size={25} name="find-replace" />
+                </SwipeItem>
             </Animated.View>
         );
+    };
+
+    const renderRightActions = (progress, dragX) => {
+        const trans = dragX.interpolate({
+          inputRange: [0, 170, 171],
+          outputRange: [90, 120, 121],
+        });
+
+        const styles = StyleSheet.create({
+            swipe: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 15,
+                height: 90,
+                width: '35%',
+                backgroundColor: "#fff",
+            },
+        });
+    
+        return (
+            <Animated.View style={[styles.swipe, {transform: [{translateX: trans}]}]}>
+                <SwipeItem bg={primary}>
+                    <Feather color="#fff" size={25} name="trash" />
+                </SwipeItem>
+            </Animated.View>
+        );
+    };
+
+    const WorkoutFather = ({ item }) => {
+        return(
+            <Workout>
+                <WorkoutHeader>
+                    <WorkoutBig>Treino {item.id}</WorkoutBig>
+                    <WorkoutMuscle>{item.muscle}</WorkoutMuscle>
+                </WorkoutHeader>
+
+                <FlatList
+                    keyExtractor={item => item.id}
+                    data={item.data}
+                    renderItem={({item}) => 
+                        <WorkoutChildren item={item} />
+                    }
+                />
+            </Workout>
+        )
+    };
+
+    const WorkoutChildren = ({ item }) => {
+        return(
+            <Swipeable 
+                onSwipeableLeftOpen={() => setModalVisible(true)} 
+                renderLeftActions={renderLeftActions}
+                renderRightActions={renderRightActions}
+            >
+                <WorkoutItem>
+                    <WorkoutDetail>
+                        <WorkoutMiniature></WorkoutMiniature>
+
+                        <WorkoutContent>
+                            <WorkoutLine></WorkoutLine>
+                        
+                            <WorkoutName>{item.name}</WorkoutName>
+
+                            <WorkoutSeries>{`${item.sets}x${item.reps}`} vezes</WorkoutSeries>
+                        </WorkoutContent>
+
+                        <WorkoutLike>
+                            <AntDesign name="hearto" color="#000" size={18} />
+                        </WorkoutLike>
+                    </WorkoutDetail>
+                </WorkoutItem>
+            </Swipeable>
+        )
     };
 
     return(
@@ -204,40 +254,13 @@ export default function Workouts({ filter }) {
             {loading ?
                 <ActivityIndicator style={{marginTop: 80}} size="large" color={primary} />
                 :
-                workouts.map((item, k) => (
-                    item.muscle === filter ?
-                        <Animated.View key={k}>
-                            <WorkoutHeader mTop={k >= 1 ? '70px' : '20px'}>
-                                <WorkoutBig>Treino {k+1}</WorkoutBig>
-                                <WorkoutMuscle>{item.muscle}</WorkoutMuscle>
-                            </WorkoutHeader>
-    
-                            {item.data.map((it, kk) => (
-                                <Swipeable renderLeftActions={renderLeftActions} key={kk}>
-                                    <WorkoutItem>
-                                        <WorkoutDetail>
-                                            <WorkoutMiniature></WorkoutMiniature>
-                    
-                                            <WorkoutContent>
-                                                <WorkoutLine></WorkoutLine>
-                                            
-                                                <WorkoutName>{it.name}</WorkoutName>
-                    
-                                                <WorkoutSeries>{`${it.sets}x${it.reps}`} vezes</WorkoutSeries>
-                                            </WorkoutContent>
-                    
-                                            <WorkoutLike>
-                                                <AntDesign name="hearto" color="#000" size={18} />
-                                            </WorkoutLike>
-                                        </WorkoutDetail>
-                                    </WorkoutItem>
-                                </Swipeable>
-                            ))}
-                        </Animated.View>
-                    :
-    
-                    null
-                ))
+                <FlatList
+                    data={data}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => 
+                        <WorkoutFather item={item} />                
+                    }
+                />
             }
 
             <ModalReplace modalVisible={modalVisible} setModalVisible={setModalVisible} />

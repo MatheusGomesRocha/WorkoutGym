@@ -24,9 +24,9 @@ const ButtonClose = styled.TouchableOpacity`
     background-color: ${grayish};
     align-self: center;
     width: 50px;
-    height: 4px;
+    height: 6px;
     border-radius: 2px;
-    margin-top: 5px;
+    margin-top: 10px;
 `;
 
 const Header = styled.View`
@@ -105,7 +105,7 @@ export default ModalReplace = ({modalVisible, setModalVisible}) => {
 
     return(
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
