@@ -21,7 +21,6 @@ const data = [
     { label: 'Ombro', value: '8' },
 ];
 
-
 export default () => {
     const [filter, setFilter] = useState('Biceps');
 

@@ -230,7 +230,7 @@ export default function Workouts({ filter, setFilter }) {
                 renderLeftActions={renderLeftActions}
                 renderRightActions={renderRightActions}
             >
-                <WorkoutItem>
+                <WorkoutItem onPress={() => navigation.navigate('workoutdetail')}>
                     <WorkoutDetail>
                         <WorkoutMiniature></WorkoutMiniature>
 

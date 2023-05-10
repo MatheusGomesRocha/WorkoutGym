@@ -1,19 +1,18 @@
 import React from 'react';
 
+import Entypo from 'react-native-vector-icons/Entypo';
+
 import {
     Container,
-    Text,
-    Button,
+    AddButton
 } from './styles';
-
-import { TouchableHighlight } from 'react-native'; 
 
 export default ({ navigation }) => {
     return(
         <Container>
-            <Button onPress={() => navigation.navigate('newworkout')}>
-                <Text>Olá mundo 2</Text>
-            </Button>
+            <AddButton onPress={() => navigation.navigate('newworkout')}>
+                <Entypo name="plus" color="#aaa" size={30} />
+            </AddButton>
         </Container>
     )
 }
