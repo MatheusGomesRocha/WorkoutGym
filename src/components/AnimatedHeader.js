@@ -14,14 +14,15 @@ import { MyMarker } from './Slider/MyMarker';
 import ModalMuscle from './Modal/ModalMuscle';
 
 const Container = styled.View`
+    align-items: center;
 `;
 const DropdownButton = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
 `;
 const MuscleWrapped = styled.View`
-    align-items: flex-start;
-    margin-left: 10px;
+    align-items: center;
+    justify-content: center;
 `;
 const Header = styled.View`
     flex-direction: row;

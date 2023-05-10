@@ -17,13 +17,13 @@ import ModalReplace from './Modal/ModalReplace';
 import AnimatedHeader from './AnimatedHeader';
 
 const Container = styled.View`
-    padding: 0 25px;
 `;
 const Workout = styled.View``;
 const WorkoutHeader = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 0 20px;
 `;
 const WorkoutBig = styled.Text`
     font-family: ${bold};
@@ -93,6 +93,7 @@ export default function Workouts({ filter, setFilter }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(workouts);
+    const [elevation, setElevation] = useState(0);
 
     const navigation = useNavigation();
 
@@ -211,6 +212,7 @@ export default function Workouts({ filter, setFilter }) {
                 </WorkoutHeader>
 
                 <FlatList
+                    style={{paddingHorizontal: 20}}
                     keyExtractor={item => item.id}
                     data={item.data}
                     renderItem={({item}) => 
