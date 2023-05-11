@@ -12,7 +12,7 @@ export const marginTopAreas = '20px';
 export const paddingHorizontal = '30px';
 
 export const primary = '#fd2254';
-export const primaryTransparent = 'rgba(255, 0, 0, .1)';
+export const primaryTransparent = 'rgba(253, 34, 84, .2)';
 
 export const grayish = '#d0d2da';
 export const lightgray = '#f5f5f7';

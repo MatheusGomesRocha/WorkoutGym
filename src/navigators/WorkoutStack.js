@@ -12,7 +12,7 @@ export default () => {
         <MainStack.Navigator initialRouteName="workout">
             <MainStack.Screen name="workout" component={Workout} options={{title: null, headerTransparent: true, headerLeft: null}} />
             <MainStack.Screen name="newworkout" component={NewWorkout} options={{headerTitleAlign: 'center', headerStyle: {height: 60}}} />
-            <MainStack.Screen name="workoutdetail" component={WorkoutDetail} options={{headerTitleAlign: 'center', headerStyle: {height: 60}}} />
+            <MainStack.Screen name="workoutdetail" component={WorkoutDetail} options={{title: 'Detalhes', headerTitleAlign: 'center', headerStyle: {height: 60}}} />
         </MainStack.Navigator>
     )
 }
