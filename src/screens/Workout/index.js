@@ -10,7 +10,7 @@ import {
 export default ({ navigation }) => {
     return(
         <Container>
-            <AddButton onPress={() => navigation.navigate('newworkout')}>
+            <AddButton onPress={() => navigation.navigate('workoutcurrent')}>
                 <Entypo name="plus" color="#aaa" size={30} />
             </AddButton>
         </Container>
