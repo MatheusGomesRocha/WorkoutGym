@@ -114,7 +114,7 @@ export const NextMiniature = styled.View`
     margin-top: 10px;
 `;
 
-export const WorkoutButton = styled.View`
+export const WorkoutButton = styled.TouchableOpacity`
     background-color: #fff;
     align-items: center;
     justify-content: center;

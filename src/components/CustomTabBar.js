@@ -9,6 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styled from 'styled-components/native';
+import { primary } from '../globals';
 
 const Container = styled.View`
     background-color: #fff;
@@ -29,14 +30,14 @@ const Touch = styled.TouchableOpacity`
 `;
 
 const TouchCenter = styled.TouchableHighlight`
-    background-color: red;
+    background-color: ${primary};
     align-items: center;
     justify-content: center;
     top: -20px;
     width: 50px;
     height: 50px;
     border-radius: 35px;
-    shadow-color: red;
+    shadow-color: ${primary};
     elevation: 7;
 `;
 
@@ -84,24 +85,24 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
         <Container>
             {/* <Animated.View style={{backgroundColor: '#000', position: 'absolute', height: 3, borderRadius: 5, width: 40, top: 0, left:
             positionAnim }}></Animated.View> */}
-            <Touch bg={state.index === 0 ? '#57A6CA' : 'transparent'} onPress={() => goTo('home')}>
-                <AntDesign name="home" color={state.index === 0 ? 'red' : '#ccc'} size={20} />
+            <Touch onPress={() => goTo('home')}>
+                <AntDesign name="home" color={state.index === 0 ? primary : '#ccc'} size={20} />
             </Touch>
 
-            <Touch bg={state.index === 1 ? '#57A6CA' : 'transparent'} onPress={() => goTo('progress')}>
-                <MaterialIcons name="insert-chart-outlined" color={state.index === 1 ? 'red' : '#ccc'} size={20} />
+            <Touch onPress={() => goTo('progress')}>
+                <MaterialIcons name="insert-chart-outlined" color={state.index === 1 ? primary : '#ccc'} size={20} />
             </Touch>
 
-            <TouchCenter bg={state.index === 2 ? '#57A6CA' : 'transparent'} onPress={() => goTo('exercise')}>
+            <TouchCenter onPress={() => goTo('exercise')}>
                 <Ionicons name="play-outline" color="#fff" size={20} />
             </TouchCenter>
 
-            <Touch bg={state.index === 3 ? '#57A6CA' : 'transparent'} onPress={() => goTo('chat')}>
-                <MaterialCommunityIcons name="note-multiple-outline" color={state.index === 3 ? 'red' : '#ccc'} size={20} />
+            <Touch onPress={() => goTo('chat')}>
+                <MaterialCommunityIcons name="note-multiple-outline" color={state.index === 3 ? primary : '#ccc'} size={20} />
             </Touch>
 
-            <Touch bg={state.index === 4 ? '#57A6CA' : 'transparent'} onPress={() => goTo('profile')}>
-                <AntDesign name="user" color={state.index === 4 ? 'red' : '#ccc'} size={20} />
+            <Touch onPress={() => goTo('profile')}>
+                <AntDesign name="user" color={state.index === 4 ? primary : '#ccc'} size={20} />
             </Touch>
         </Container>
     );

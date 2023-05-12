@@ -258,6 +258,7 @@ export default function Workouts({ filter, setFilter }) {
                 :
                 <FlatList
                     data={data}
+                    showsVerticalScrollIndicator={false}
                     keyExtractor={item => item.id}
                     renderItem={({item}) => 
                         <WorkoutFather item={item} />                

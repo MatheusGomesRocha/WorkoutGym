@@ -108,6 +108,7 @@ export const DayScroll = ({ currentDate, setCurrentDate, currentMonth, selectedD
         <FlatList
             onMomentumScrollEnd={scrollEndAction}
             ref={DayRef}
+            showsHorizontalScrollIndicator={false}
             horizontal
             style={{marginTop: 10}}
             contentContainerStyle={{paddingHorizontal: offsetW, paddingBottom: 10}}

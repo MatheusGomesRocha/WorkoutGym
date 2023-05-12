@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
 
 import { useWindowDimensions } from 'react-native';
 
 import { primary } from '../../globals';
+import ModalReps from '../../components/Modal/ModalReps';
 
 import {
     Container,
@@ -37,6 +38,8 @@ import {
 } from './styles';
 
 export default function CurrentWorkout () {
+    const [modalVisible, setModalVisible] = useState(false);
+
     const window = useWindowDimensions();
 
     function handleProgressLine () {
@@ -80,11 +83,13 @@ export default function CurrentWorkout () {
                         <NextMiniature></NextMiniature>
                     </NextWorkout>
 
-                    <WorkoutButton>
+                    <WorkoutButton onPress={() => setModalVisible(true)}>
                         <WorkoutButtonText>Completado</WorkoutButtonText>
                     </WorkoutButton>
                 </ContentOver>
             </Content>
+
+            <ModalReps modalVisible={modalVisible} setModalVisible={setModalVisible} />
         </Container>
     )
 }
