@@ -38,7 +38,7 @@ export const WorkoutInfoText = styled.Text`
     width: 70px;
     margin-left: 10px;
 `;
-export const WorkoutFinish = styled.View`
+export const WorkoutFinish = styled.TouchableOpacity`
     background-color: ${lightgray};
     flex-direction: row;
     align-items: center;
@@ -53,14 +53,18 @@ export const WorkoutFinishText = styled.Text`
     margin-left: 15px;
 `;
 
+
+/** -------------------------------------------------------- */
+
+
 export const Content = styled.View`
     flex: 1;
-    background-color: ${primaryTransparent};
 `;
 export const ContentOver = styled.View`
     flex: 1;
-    padding: 20px 25px;
+    background-color: ${primaryTransparent};
     justify-content: center;
+    padding: 20px 25px;
 `;
 export const ContentInfo = styled.View`
     flex-direction: row;
@@ -95,6 +99,10 @@ export const ContentInfoSmallText = styled.Text`
     font-family: ${regular};
 `;
 
+
+/** -------------------------------------------------------- */
+
+
 export const NextWorkout = styled.View`
     margin-top: 80px;
 `;
@@ -128,4 +136,46 @@ export const WorkoutButtonText = styled.Text`
     color: ${secondary};
     font-family: ${bold};
     font-size: 16px;
+`;
+
+
+/** -------------------------------------------------------- */
+
+
+export const RelaxArea = styled.View`
+    flex: 1;
+    padding: 10px 25px 40px 25px;
+    justify-content: space-between;
+`;
+export const RelaxTitle = styled.View``;
+export const RelaxBold = styled.Text`
+    color: ${secondary};
+    font-family: ${bold};
+    font-size: 45px;
+`;
+export const RelaxSemiBold = styled.Text`
+    color: ${grayFont};
+    font-family: ${semibold};
+    font-size: 40px;
+    margin-top: -18px;
+`;
+
+export const RelaxText = styled.Text`
+    color: ${secondary};
+    font-family: ${bold};
+    text-align: center;
+    font-size: 20px;
+`;
+
+export const RelaxTimer = styled.View`
+    align-items: center;
+`;
+export const RelaxTimerNumber = styled.Text`
+    color: ${secondary};
+    font-family: ${bold};
+    font-size: 50px;
+`;
+export const RelaxTimerText = styled.Text`
+    color: ${grayFont};
+    font-family: ${semibold};
 `;
