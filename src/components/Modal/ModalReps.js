@@ -50,6 +50,9 @@ const ButtonText = styled.Text`
     font-size: 18px;
     width: 100%;
 `;
+const AnimatedButton = styled.TouchableOpacity`
+    align-items: center;
+`;
 
 let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
@@ -103,11 +106,23 @@ export default function ModalReps ({ modalVisible, setModalVisible }) {
                 marginTop: 10,
             }
         })
+        
+        function scrollToRep(item) {
+            let posX = item * (window.width / 5.4);
+            setCurrentValue(item);
+
+            valueRef.current.scrollToOffset({
+                offset: posX,
+                animated: true,
+            });
+        }
 
         return (
             <Animated.View style={animatedItem}>
-                <Animated.Text style={animatedText}>{item}</Animated.Text>
-                <Animated.View style={animatedLine} />
+                <AnimatedButton onPress={() => scrollToRep(item)}>
+                    <Animated.Text style={animatedText}>{item}</Animated.Text>
+                    <Animated.View style={animatedLine} />
+                </AnimatedButton>
             </Animated.View>
         )
     }
