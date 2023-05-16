@@ -35,6 +35,22 @@ const SmallText = styled.Text`
     font-family: ${semibold};
     font-size: 16px;
 `;
+const Item = styled.TouchableOpacity`
+    align-items: center;
+    width: ${props=>props.w};
+    transform: ${props=>props.trans};
+`;
+const Value = styled.Text`
+    color: ${props=>props.c};
+    font-size: ${props=>props.fz};
+    font-family: ${bold};
+`;
+const Line = styled.View`
+    background-color: ${props=>props.bg};
+    width: 2px;
+    height: ${props=>props.h};
+    margin-top: 10px;
+`;
 const Button = styled.TouchableOpacity`
     background-color: ${props=>props.bg};
     flex-direction: row;
@@ -56,7 +72,7 @@ const AnimatedButton = styled.TouchableOpacity`
 
 let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
-export default function ModalReps ({ modalVisible, setModalVisible }) {
+export default function ModalReps ({ completeSet, setCompleteSet, modalVisible, setModalVisible }) {
     const [currentValue, setCurrentValue] = useState(0);
 
     const valueRef = useRef();
@@ -107,15 +123,7 @@ export default function ModalReps ({ modalVisible, setModalVisible }) {
             }
         })
         
-        function scrollToRep(item) {
-            let posX = item * (window.width / 5.4);
-            setCurrentValue(item);
-
-            valueRef.current.scrollToOffset({
-                offset: posX,
-                animated: true,
-            });
-        }
+        
 
         return (
             <Animated.View style={animatedItem}>
@@ -127,6 +135,16 @@ export default function ModalReps ({ modalVisible, setModalVisible }) {
         )
     }
 
+    function scrollToRep(item) {
+        let posX = item * (window.width / 5.4);
+        setCurrentValue(item);
+
+        valueRef.current.scrollToOffset({
+            offset: posX,
+            animated: true,
+        });
+    }
+
     function scrollEndAction (e) {
         let posX = e.nativeEvent.contentOffset.x;
         let targetValue = Math.round(posX / valueW) + 1;
@@ -136,6 +154,7 @@ export default function ModalReps ({ modalVisible, setModalVisible }) {
     function handleContinue () {
         setModalVisible(false);
         setCurrentValue(0);
+        setCompleteSet(true);
     }
 
     return(
@@ -163,7 +182,10 @@ export default function ModalReps ({ modalVisible, setModalVisible }) {
                             contentContainerStyle={{paddingTop: 120, paddingHorizontal: offsetW, paddingBottom: 10}}
                             data={values}
                             renderItem={({item, k}) => 
-                                <AnimatedItem index={k} item={item} />
+                                <Item onPress={() => scrollToRep(item)} trans={currentValue === item ? 'translateY(-50px)' : 'translateY(0)'} w={valueW+'px'}>
+                                    <Value fz={currentValue === item ? 35+'px' : 16+'px'} c={currentValue === item ? secondary : grayFont}>{item}</Value>
+                                    <Line bg={currentValue === item ? secondary : grayFont} h={currentValue === item ? '40px' : '15px'} />
+                                </Item>
                             }
                         />
 

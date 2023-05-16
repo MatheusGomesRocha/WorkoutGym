@@ -160,6 +160,8 @@ export const RelaxSemiBold = styled.Text`
     margin-top: -18px;
 `;
 
+export const RelaxWave = styled.View`
+`;
 export const RelaxText = styled.Text`
     color: ${secondary};
     font-family: ${bold};
@@ -179,3 +181,4 @@ export const RelaxTimerText = styled.Text`
     color: ${grayFont};
     font-family: ${semibold};
 `;
+
