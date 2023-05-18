@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { useWindowDimensions, Vibration } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming, withDelay } from 'react-native-reanimated';
 
-import { primary } from '../../globals';
+import { primary, primaryTransparent } from '../../globals';
 import ModalReps from '../../components/Modal/ModalReps';
 
 import {
@@ -33,6 +34,7 @@ import {
     NextName,
     NextMiniature,
 
+    WorkoutPadding,
     WorkoutButton,
     WorkoutButtonText,
 
@@ -52,11 +54,50 @@ import {
 export default function CurrentWorkout () {
     const [modalVisible, setModalVisible] = useState(false);
     const [completeSet, setCompleteSet] = useState(false);
-    const [timer, setTimer] = useState(10);
+    const [timer, setTimer] = useState(5);
     
     const window = useWindowDimensions();
 
     const [width, setWidth] = useState(window.width / 5);
+
+    const relaxScreen = useSharedValue(1000);
+    const contentScreen = useSharedValue(0);
+
+    const AnimatedContent = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {translateX: contentScreen.value}
+            ],
+            flex: 1,
+            backgroundColor: primaryTransparent,
+        }
+    })
+
+    const AnimatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {translateY: relaxScreen.value},
+            ],
+            flex: 1,
+            backgroundColor: '#fff',
+            justifyContent: 'space-between',
+        }
+    })
+
+    useEffect(() => {
+        if(completeSet) {
+            relaxScreen.value = withDelay(50, withTiming(0, {duration: 500}));
+            contentScreen.value = withTiming(-1000);
+
+            if(timer === 0) {
+                relaxScreen.value = withTiming(1000, {
+                    duration: 500,
+                });
+            }
+        } else {
+            contentScreen.value = withTiming(0);
+        }
+    }, [completeSet, timer])
 
     const Timer = () => {
         useEffect(() => {
@@ -66,9 +107,11 @@ export default function CurrentWorkout () {
                 }, 1000);
 
                 if(timer === 0) {
-                    setCompleteSet(false);
-                    setTimer(10);
-                    Vibration.vibrate(3000);
+                    setTimeout(() => {
+                        setCompleteSet(false);
+                        setTimer(5);
+                        Vibration.vibrate(3000);
+                    }, 500)
                 }
     
                 return () => clearInterval(interval);
@@ -94,64 +137,65 @@ export default function CurrentWorkout () {
         <Container>
             <ProgressLine w={width+'px'} />
 
-            {!completeSet ?
-                <Header>
-                    <WorkoutInfo>
-                        <WorkoutInfoNumber>5</WorkoutInfoNumber>
-                        <WorkoutInfoText>Séries restantes</WorkoutInfoText>
-                    </WorkoutInfo>
-
-                    <WorkoutFinish onPress={handleProgressLine}>
-                        <Feather name="flag" color={primary} size={18} />
-                        <WorkoutFinishText>Finalizar série</WorkoutFinishText>
-                    </WorkoutFinish>
-                </Header>
-            : 
-                null
-            }
-
             <Content>
                 {!completeSet ? 
-                    <ContentOver>
-                        <ContentInfo>
-                            <ContentInfoLeft>
-                                <ContentInfoText>Rosca direta</ContentInfoText>
-                            </ContentInfoLeft>
+                    <Animated.View style={AnimatedContent}>
+                        
+                        <Header>
+                            <WorkoutInfo>
+                                <WorkoutInfoNumber>5</WorkoutInfoNumber>
+                                <WorkoutInfoText>Séries restantes</WorkoutInfoText>
+                            </WorkoutInfo>
 
-                            <ContentInfoLine />
+                            <WorkoutFinish onPress={handleProgressLine}>
+                                <Feather name="flag" color={primary} size={18} />
+                                <WorkoutFinishText>Finalizar série</WorkoutFinishText>
+                            </WorkoutFinish>
+                        </Header>
 
-                            <ContentInfoRight>
-                                <ContentInfoNumber>15</ContentInfoNumber>
-                                <ContentInfoSmallText>Vezes</ContentInfoSmallText>
-                            </ContentInfoRight>
-                        </ContentInfo>
+                            <ContentInfo>
+                                <ContentInfoLeft>
+                                    <ContentInfoText>Rosca direta</ContentInfoText>
+                                </ContentInfoLeft>
 
-                        <NextWorkout>
-                            <NextText>Próximo</NextText>
-                            <NextName>Rosca concentrada</NextName>
-                            <NextMiniature></NextMiniature>
-                        </NextWorkout>
+                                <ContentInfoLine />
 
-                        <WorkoutButton onPress={() => setModalVisible(true)}>
-                            <WorkoutButtonText>Completado</WorkoutButtonText>
-                        </WorkoutButton>
-                    </ContentOver>
+                                <ContentInfoRight>
+                                    <ContentInfoNumber>15</ContentInfoNumber>
+                                    <ContentInfoSmallText>Vezes</ContentInfoSmallText>
+                                </ContentInfoRight>
+                            </ContentInfo>
+
+                            <NextWorkout>
+                                <NextText>Próximo</NextText>
+                                <NextName>Rosca concentrada</NextName>
+                                <NextMiniature></NextMiniature>
+                            </NextWorkout>
+
+                            <WorkoutPadding>
+                                <WorkoutButton onPress={() => setModalVisible(true)}>
+                                    <WorkoutButtonText>Completado</WorkoutButtonText>
+                                </WorkoutButton>
+                            </WorkoutPadding>
+                    </Animated.View>
                     :
-                    <RelaxArea>
-                        <RelaxTitle>
-                            <RelaxBold>Relaxe,</RelaxBold>
-                            <RelaxSemiBold>Ande por aí</RelaxSemiBold>
-                        </RelaxTitle>
+                    <Animated.View style={AnimatedStyle}>
+                        <RelaxArea>
+                            <RelaxTitle>
+                                <RelaxBold>Relaxe,</RelaxBold>
+                                <RelaxSemiBold>Ande por aí</RelaxSemiBold>
+                            </RelaxTitle>
 
-                        <RelaxWave>
-                            <RelaxText>Respire fundo</RelaxText>
-                        </RelaxWave>
+                            <RelaxWave>
+                                <RelaxText>Respire fundo</RelaxText>
+                            </RelaxWave>
 
-                        <RelaxTimer>
-                            <Timer />
-                            <RelaxTimerText>Segundos restantes</RelaxTimerText>
-                        </RelaxTimer>
-                    </RelaxArea>
+                            <RelaxTimer>
+                                <Timer />
+                                <RelaxTimerText>Segundos restantes</RelaxTimerText>
+                            </RelaxTimer>
+                        </RelaxArea>
+                    </Animated.View>
                 }
             </Content>
 

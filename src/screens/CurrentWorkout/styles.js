@@ -3,7 +3,6 @@ import { bold, grayFont, grayish, primary, primaryTransparent, semibold, lightgr
 import { secondary } from '../../globals';
 
 export const Container = styled.SafeAreaView`
-    background-color: #fff;
     flex: 1;
 `;
 
@@ -13,6 +12,7 @@ export const Header = styled.View`
     justify-content: space-between;
     height: 120px;
     padding: 0 25px;
+    background-color: #fff;
 `;
 export const ProgressLine = styled.View`
     background-color: ${secondary};
@@ -21,6 +21,7 @@ export const ProgressLine = styled.View`
     border-radius: 3px;
     position: absolute;
     top: 0;
+    z-index: 999;
 `;
 export const WorkoutInfo = styled.View`
     flex-direction: row;
@@ -59,6 +60,7 @@ export const WorkoutFinishText = styled.Text`
 
 export const Content = styled.View`
     flex: 1;
+    background-color: #fff;
 `;
 export const ContentOver = styled.View`
     flex: 1;
@@ -70,6 +72,7 @@ export const ContentInfo = styled.View`
     flex-direction: row;
     align-items: center;
     margin-top: 50px;
+    padding: 0 25px;
 `;
 export const ContentInfoLeft = styled.View`
 `;
@@ -105,6 +108,7 @@ export const ContentInfoSmallText = styled.Text`
 
 export const NextWorkout = styled.View`
     margin-top: 80px;
+    padding: 0 25px;
 `;
 export const NextText = styled.Text`
     color: #888;
@@ -122,6 +126,11 @@ export const NextMiniature = styled.View`
     margin-top: 10px;
 `;
 
+export const WorkoutPadding = styled.View`
+    padding: 0 25px;
+    margin-top: auto;
+    margin-bottom: 40px;
+`;
 export const WorkoutButton = styled.TouchableOpacity`
     background-color: #fff;
     align-items: center;
@@ -130,7 +139,6 @@ export const WorkoutButton = styled.TouchableOpacity`
     width: 100%;
     height: 60px;
     border-radius: 10px;
-    margin-top: auto;
 `;
 export const WorkoutButtonText = styled.Text`
     color: ${secondary};
@@ -143,6 +151,7 @@ export const WorkoutButtonText = styled.Text`
 
 
 export const RelaxArea = styled.View`
+    background-color: #fff;
     flex: 1;
     padding: 10px 25px 40px 25px;
     justify-content: space-between;
