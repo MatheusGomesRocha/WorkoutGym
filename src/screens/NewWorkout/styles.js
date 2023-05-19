@@ -4,4 +4,6 @@ export const Container = styled.SafeAreaView`
     flex: 1;
     background-color: #fff;
 `;
-export const ScrollContent = styled.ScrollView``;
+export const Button = styled.TouchableOpacity`
+    margin-right: 10px;
+`;

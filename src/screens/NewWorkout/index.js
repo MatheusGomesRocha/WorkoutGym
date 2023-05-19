@@ -1,13 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import { useNavigation } from '@react-navigation/native';
 
 import AnimatedHeader from '../../components/AnimatedHeader';
 import Workouts from '../../components/Wokouts';
 
-import { Text } from 'react-native';
 import {
     Container,
 
-    ScrollContent,
+    Button,
 } from './styles';
 
 const data = [
@@ -23,8 +26,23 @@ const data = [
 
 export default () => {
     const [filter, setFilter] = useState('Biceps');
-
     const [offset, setOffset] = useState(0);
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => <NewWorkout />
+        })
+    }, [])
+
+    const NewWorkout = () => {
+        return(
+            <Button>
+                <AntDesign name="pluscircleo" color="#000" size={20} />
+            </Button>
+        )
+    }
     
     function headerFixed (event) {
         if(event.contentOffset.y > 0) {
