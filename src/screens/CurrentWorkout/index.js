@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import Video from 'react-native-video';
 
-import { useWindowDimensions, Vibration } from 'react-native';
+import { StatusBar, useWindowDimensions, Vibration } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, withDelay } from 'react-native-reanimated';
 
 import { primary, primaryTransparent } from '../../globals';
@@ -13,18 +15,11 @@ import videoteste from '../../assets/videos/triceps-coice.mp4';
 import {
     Container,
 
-    Header,
-    ProgressLine,
-    WorkoutInfo,
-    WorkoutInfoNumber,
-    WorkoutInfoText,
-    WorkoutFinish,
-    WorkoutFinishText,
+    VideoArea,
 
     Content,
-    VideoArea,
-    ContentIndex,
-    ContentOver,
+    ProgressLine,
+
     ContentInfo,
     ContentInfoLeft,
     ContentInfoText,
@@ -38,21 +33,23 @@ import {
     NextName,
     NextMiniature,
 
-    WorkoutPadding,
-    WorkoutButton,
-    WorkoutButtonText,
+    MessageArea, 
 
-    RelaxArea,
-    RelaxTitle,
-    RelaxBold,
-    RelaxSemiBold,
+    StartTextArea,
+    StartText,
+    StartValue,
+    
+    TimerValue,
 
-    RelaxWave,
-    RelaxText, 
+    Footer,
+    WorkoutInfo,
+    WorkoutInfoNumber,
+    WorkoutInfoText,
+    TimerButton,
+    WorkoutFinish,
+    WorkoutFinishText,
 
-    RelaxTimer,
     RelaxTimerNumber,
-    RelaxTimerText,
 } from './styles';
 
 export default function CurrentWorkout () {
@@ -66,6 +63,22 @@ export default function CurrentWorkout () {
 
     const relaxScreen = useSharedValue(1000);
     const contentScreen = useSharedValue(0);
+    const startMessageOpacity = useSharedValue(0);
+    const timerOpacity = useSharedValue(0);
+
+    const AnimatedStartedMessage = useAnimatedStyle(() => {
+        return {
+            opacity: startMessageOpacity.value,
+            alignItems: 'center',
+        }
+    });
+
+    const AnimatedTimer = useAnimatedStyle(() => {
+        return {
+            opacity: timerOpacity.value,
+            alignItems: 'center',
+        }
+    });
 
     const AnimatedContent = useAnimatedStyle(() => {
         return {
@@ -136,81 +149,84 @@ export default function CurrentWorkout () {
         setWidth(width => width + window.width / 5);
     }
 
+    function startWorkout () {
+        startMessageOpacity.value = withTiming(1, {
+            duration: 500,
+        });
+
+        setTimeout(() => {
+            startMessageOpacity.value = withTiming(0, {
+                duration: 500,
+            });
+
+            timerOpacity.value = withTiming(1, {
+                duration: 1500,
+            });
+        }, 3000)
+    }
+
     return(
         <Container>
-            <ProgressLine w={width+'px'} />
+            <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'light-content'} />
+
+            <VideoArea>
+                <Video source={videoteste}
+                    repeat={true}
+                    resizeMode="stretch"
+                    style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}
+                />
+            </VideoArea>
 
             <Content>
-                {!completeSet ? 
-                    <Animated.View style={AnimatedContent}>
-                        <Header>
-                            <WorkoutInfo>
-                                <WorkoutInfoNumber>5</WorkoutInfoNumber>
-                                <WorkoutInfoText>Séries restantes</WorkoutInfoText>
-                            </WorkoutInfo>
+                <ProgressLine w={width+'px'} />
 
-                            <WorkoutFinish onPress={handleProgressLine}>
-                                <Feather name="flag" color={primary} size={18} />
-                                <WorkoutFinishText>Finalizar série</WorkoutFinishText>
-                            </WorkoutFinish>
-                        </Header>
+                <ContentInfo>
+                    <ContentInfoLeft>
+                        <ContentInfoText>Rosca direta</ContentInfoText>
+                    </ContentInfoLeft>
 
-                        <ContentOver>
-                            <VideoArea>
-                                <Video source={videoteste}
-                                    repeat={true}
-                                    resizeMode="stretch"
-                                    style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}
-                                />
-                            </VideoArea>
+                    <ContentInfoLine />
 
-                            <ContentIndex>
-                                <ContentInfo>
-                                    <ContentInfoLeft>
-                                        <ContentInfoText>Rosca direta</ContentInfoText>
-                                    </ContentInfoLeft>
+                    <ContentInfoRight>
+                        <ContentInfoNumber>15</ContentInfoNumber>
+                        <ContentInfoSmallText>Vezes</ContentInfoSmallText>
+                    </ContentInfoRight>
+                </ContentInfo>
 
-                                    <ContentInfoLine />
+                <NextWorkout>
+                    <NextText>Próximo</NextText>
+                    <NextName>Rosca concentrada</NextName>
+                    <NextMiniature></NextMiniature>
+                </NextWorkout>
 
-                                    <ContentInfoRight>
-                                        <ContentInfoNumber>15</ContentInfoNumber>
-                                        <ContentInfoSmallText>Vezes</ContentInfoSmallText>
-                                    </ContentInfoRight>
-                                </ContentInfo>
-
-                                <NextWorkout>
-                                    <NextText>Próximo</NextText>
-                                    <NextName>Rosca concentrada</NextName>
-                                    <NextMiniature></NextMiniature>
-                                </NextWorkout>
-
-                                <WorkoutPadding>
-                                    <WorkoutButton onPress={() => setModalVisible(true)}>
-                                        <WorkoutButtonText>Completado</WorkoutButtonText>
-                                    </WorkoutButton>
-                                </WorkoutPadding>
-                            </ContentIndex>
-                        </ContentOver>
+                <MessageArea>
+                    <Animated.View style={AnimatedStartedMessage}>
+                        <StartTextArea>
+                            <StartText>Vamos Começar!</StartText>
+                            <StartValue>3</StartValue>
+                        </StartTextArea>
                     </Animated.View>
-                    :
-                    <Animated.View style={AnimatedStyle}>
-                        <RelaxArea>
-                            <RelaxTitle>
-                                <RelaxBold>Relaxe,</RelaxBold>
-                                <RelaxSemiBold>Ande por aí</RelaxSemiBold>
-                            </RelaxTitle>
 
-                            <RelaxWave>
-                                <RelaxText>Respire fundo</RelaxText>
-                            </RelaxWave>
-
-                            <RelaxTimer>
-                                <Timer />
-                                <RelaxTimerText>Segundos restantes</RelaxTimerText>
-                            </RelaxTimer>
-                        </RelaxArea>
+                    <Animated.View style={AnimatedTimer}>
+                        <TimerValue>9:31</TimerValue>
                     </Animated.View>
-                }
+                </MessageArea>
+
+                <Footer>
+                    <WorkoutInfo>
+                        <WorkoutInfoNumber>5</WorkoutInfoNumber>
+                        <WorkoutInfoText>Séries restantes</WorkoutInfoText>
+                    </WorkoutInfo>
+
+                    <TimerButton onPress={startWorkout}>
+                        <FontAwesome5 name="play" color="#fff" size={15} />
+                    </TimerButton>
+
+                    <WorkoutFinish onPress={handleProgressLine}>
+                        {/* <Feather name="flag" color={primary} size={18} /> */}
+                        <WorkoutFinishText>Próximo</WorkoutFinishText>
+                    </WorkoutFinish>
+                </Footer>
             </Content>
 
             <ModalReps completeSet={completeSet} setCompleteSet={setCompleteSet} modalVisible={modalVisible} setModalVisible={setModalVisible} />
