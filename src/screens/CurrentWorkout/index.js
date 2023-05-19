@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
+import Video from 'react-native-video';
 
 import { useWindowDimensions, Vibration } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, withDelay } from 'react-native-reanimated';
 
 import { primary, primaryTransparent } from '../../globals';
 import ModalReps from '../../components/Modal/ModalReps';
+import videoteste from '../../assets/videos/triceps-coice.mp4';
 
 import {
     Container,
@@ -20,6 +22,8 @@ import {
     WorkoutFinishText,
 
     Content,
+    VideoArea,
+    ContentIndex,
     ContentOver,
     ContentInfo,
     ContentInfoLeft,
@@ -69,7 +73,6 @@ export default function CurrentWorkout () {
                 {translateX: contentScreen.value}
             ],
             flex: 1,
-            backgroundColor: primaryTransparent,
         }
     })
 
@@ -140,7 +143,6 @@ export default function CurrentWorkout () {
             <Content>
                 {!completeSet ? 
                     <Animated.View style={AnimatedContent}>
-                        
                         <Header>
                             <WorkoutInfo>
                                 <WorkoutInfoNumber>5</WorkoutInfoNumber>
@@ -153,30 +155,42 @@ export default function CurrentWorkout () {
                             </WorkoutFinish>
                         </Header>
 
-                            <ContentInfo>
-                                <ContentInfoLeft>
-                                    <ContentInfoText>Rosca direta</ContentInfoText>
-                                </ContentInfoLeft>
+                        <ContentOver>
+                            <VideoArea>
+                                <Video source={videoteste}
+                                    repeat={true}
+                                    resizeMode="stretch"
+                                    style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}
+                                />
+                            </VideoArea>
 
-                                <ContentInfoLine />
+                            <ContentIndex>
+                                <ContentInfo>
+                                    <ContentInfoLeft>
+                                        <ContentInfoText>Rosca direta</ContentInfoText>
+                                    </ContentInfoLeft>
 
-                                <ContentInfoRight>
-                                    <ContentInfoNumber>15</ContentInfoNumber>
-                                    <ContentInfoSmallText>Vezes</ContentInfoSmallText>
-                                </ContentInfoRight>
-                            </ContentInfo>
+                                    <ContentInfoLine />
 
-                            <NextWorkout>
-                                <NextText>Próximo</NextText>
-                                <NextName>Rosca concentrada</NextName>
-                                <NextMiniature></NextMiniature>
-                            </NextWorkout>
+                                    <ContentInfoRight>
+                                        <ContentInfoNumber>15</ContentInfoNumber>
+                                        <ContentInfoSmallText>Vezes</ContentInfoSmallText>
+                                    </ContentInfoRight>
+                                </ContentInfo>
 
-                            <WorkoutPadding>
-                                <WorkoutButton onPress={() => setModalVisible(true)}>
-                                    <WorkoutButtonText>Completado</WorkoutButtonText>
-                                </WorkoutButton>
-                            </WorkoutPadding>
+                                <NextWorkout>
+                                    <NextText>Próximo</NextText>
+                                    <NextName>Rosca concentrada</NextName>
+                                    <NextMiniature></NextMiniature>
+                                </NextWorkout>
+
+                                <WorkoutPadding>
+                                    <WorkoutButton onPress={() => setModalVisible(true)}>
+                                        <WorkoutButtonText>Completado</WorkoutButtonText>
+                                    </WorkoutButton>
+                                </WorkoutPadding>
+                            </ContentIndex>
+                        </ContentOver>
                     </Animated.View>
                     :
                     <Animated.View style={AnimatedStyle}>

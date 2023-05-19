@@ -7,12 +7,12 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Header = styled.View`
+    background-color: #fff;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     height: 120px;
     padding: 0 25px;
-    background-color: #fff;
 `;
 export const ProgressLine = styled.View`
     background-color: ${secondary};
@@ -60,13 +60,20 @@ export const WorkoutFinishText = styled.Text`
 
 export const Content = styled.View`
     flex: 1;
-    background-color: #fff;
+`;
+export const VideoArea = styled.View`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 `;
 export const ContentOver = styled.View`
     flex: 1;
-    background-color: ${primaryTransparent};
-    justify-content: center;
-    padding: 20px 25px;
+`;
+export const ContentIndex = styled.View`
+    background-color: rgba(0, 0, 0, .5);
+    flex: 1;
 `;
 export const ContentInfo = styled.View`
     flex-direction: row;
@@ -77,14 +84,14 @@ export const ContentInfo = styled.View`
 export const ContentInfoLeft = styled.View`
 `;
 export const ContentInfoText = styled.Text`
-    color: ${secondary};
+    color: #fff;
     font-family: ${bold};
     font-size: 40px;
     width: 150px;
     line-height: 45px;
 `;
 export const ContentInfoLine = styled.View`
-    background-color: ${secondary};
+    background-color: #fff;
     width: 1px;
     height: 100px;
     margin: 0 45px 0 auto;
@@ -93,12 +100,12 @@ export const ContentInfoRight = styled.View`
     align-items: center;
 `;
 export const ContentInfoNumber = styled.Text`
-    color: ${secondary};
+    color: #fff;
     font-family: ${bold};
     font-size: 40px;
 `;
 export const ContentInfoSmallText = styled.Text`
-    color: ${secondary};
+    color: #fff;
     font-family: ${regular};
 `;
 
@@ -111,12 +118,12 @@ export const NextWorkout = styled.View`
     padding: 0 25px;
 `;
 export const NextText = styled.Text`
-    color: #888;
+    color: #aaa;
     font-family: ${bold};
 `;
 export const NextName = styled.Text`
     font-family: ${bold};
-    color: ${secondary};
+    color: #fff;
 `;
 export const NextMiniature = styled.View`
     background-color: #aaa;
