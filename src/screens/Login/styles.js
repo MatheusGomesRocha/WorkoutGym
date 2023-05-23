@@ -6,11 +6,9 @@ export const Container = styled.SafeAreaView`
     background-color: #fff;
 `;
 
-export const TopColored = styled.View`
-    background-color: ${secondary};
-`;
 export const LogoArea = styled.View`
-    background-color: red;
+`;
+export const Logo = styled.Image`
     width: 50px;
     height: 50px;
 `;
@@ -61,12 +59,21 @@ export const LoginContent = styled.View`
     padding: 0 20px;
     justify-content: center;
 `;
-export const LogoRow = styled.View``;
+export const LogoRow = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+export const LogoImg = styled.Image`
+    width: 20px;
+    height: 20px;
+`;
 export const LogoName = styled.Text`
     color: ${secondary};
     font-family: ${bold};
     text-align: center;
     font-size: 30px;
+    margin-left: 10px;
 `;
 
 export const SmallText = styled.Text`

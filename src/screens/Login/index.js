@@ -3,17 +3,18 @@ import React, { useState } from "react";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { StatusBar } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
 
 import { grayish, lightgray, secondary } from "../../globals";
-import Google from '../../assets/images/google.png';
 
 import {
     Container,
 
-    TopColored,
     LogoArea,
+    Logo,
 
     Content,
     Title,
@@ -24,6 +25,7 @@ import {
 
     LoginContent,
     LogoRow,
+    LogoImg,
     LogoName,
     SmallText,
     Form,
@@ -44,11 +46,14 @@ import {
 
 export default () => {
     const [showPassword, setShowPassword] = useState(true);
+    const [login, setLogin] = useState(false);
 
     const topColoredHeight = useSharedValue(300);
     const contentStartOffsetY = useSharedValue(0);
     const logoOffsetX = useSharedValue(0);
     const loginOpacity = useSharedValue(0);
+
+    const navigation = useNavigation();
 
     const LoginStyle = useAnimatedStyle(() => {
         return {
@@ -92,7 +97,7 @@ export default () => {
         return (
             <Animated.View style={topColoredStyle}>
                 <Animated.View style={logoOffsetStyle}>
-                    <LogoArea></LogoArea>
+                    <Logo source={require('../../assets/images/logo.png')} />
                 </Animated.View>
             </Animated.View>
         )
@@ -142,12 +147,14 @@ export default () => {
             loginOpacity.value = withTiming(1, {
                 duration: 500,
             })
-        }, 500)
+
+            setLogin(true);
+        }, 500);
     }
 
     return(
         <Container>
-            <StatusBar backgroundColor={secondary} barStyle={'light-content'} />
+            <StatusBar backgroundColor={login ? '#fff' : secondary} barStyle={login ? 'dark-content' : 'light-content'} />
 
             <ColoredAndLogoArea />
 
@@ -156,6 +163,7 @@ export default () => {
             <Animated.View style={LoginStyle}>
                 <LoginContent>
                     <LogoRow>
+                        <LogoImg source={require('../../assets/images/logo.png')} />
                         <LogoName>WorkoutGym</LogoName>
                     </LogoRow>
 
@@ -183,7 +191,7 @@ export default () => {
                             </InputPassword>
                         </InputArea>
                         
-                        <Submit>
+                        <Submit onPress={() => navigation.navigate('app__tab')}>
                             <SubmitText>Continue</SubmitText>
                         </Submit>
                     </Form>
